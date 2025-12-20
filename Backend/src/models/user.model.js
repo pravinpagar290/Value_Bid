@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
-  userName: {
+  username: {
     type: String,
     minLength: [3, "Username must be at least 3 characters long"],
     maxLength: [20, "Username should not exceed 20 characters"],
@@ -20,7 +21,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   profileImage: {
-    id: {
+    public_id: {
       type: String,
       required: true,
     },
@@ -29,7 +30,7 @@ const userSchema = new mongoose.Schema({
       required: true,
     },
   },
-  paymentMethod: {
+  paymentMethods: {
     bankTransfer: {
       bankAccountNumber: String,
       bankName: String,
@@ -65,9 +66,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    next();
-  }
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
 });
 
@@ -76,7 +75,7 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 };
 
 userSchema.methods.generateJsonWebToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };

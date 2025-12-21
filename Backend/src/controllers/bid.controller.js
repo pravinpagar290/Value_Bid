@@ -5,7 +5,7 @@ import { Auction } from "../models/auction.model";
 import { User } from "../models/user.model.js";
 import { Bid } from "../models/bid.model.js";
 
-export const placeBid = asyncHandler(async (req, resizeBy, next) => {
+export const placeBid = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   const auctionItem = await Auction.findById(id);
@@ -66,6 +66,7 @@ export const placeBid = asyncHandler(async (req, resizeBy, next) => {
     res.status(200).json({
       success: true,
       message: "Bid placed successfully",
+      currentBid: auctionItem.currentBid,
     });
   } catch (error) {
     return next(

@@ -1,6 +1,6 @@
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-import ErrorHandler from "./error.js";
+import ErrorHandler from "./error.middleware.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const isAuthenticated = asyncHandler(async (req, res, next) => {
@@ -26,7 +26,7 @@ export const isAuthorized = (...roles) => {
     if (!roles.includes(req.user.role)) {
       return next(
         new ErrorHandler(
-          `${req.user.role} not allowed to access this resouce.`,
+          `${req.user.role} not allowed to access this resource.`,
           403
         )
       );

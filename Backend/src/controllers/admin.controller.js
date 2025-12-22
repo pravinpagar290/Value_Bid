@@ -1,4 +1,4 @@
-import ErrorHandler from "../middlewares/error";
+import ErrorHandler from "../middlewares/error.middleware";
 import asyncHandler from "../middlewares/asyncHandler";
 import mongoose from "mongoose";
 import { Auction } from "../models/auction.model";

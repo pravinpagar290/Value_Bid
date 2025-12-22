@@ -1,5 +1,5 @@
-import { asyncHandler } from "../utils/asyncHandler";
-import ErrorHandler from "../middlewares/error.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import ErrorHandler from "../middlewares/error.middleware.js";
 import { Auction } from "../models/auction.model.js";
 import { Commission } from "../models/commissionSchema.model.js";
 import { User } from "../models/user.model.js";

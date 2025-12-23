@@ -1,5 +1,5 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import ErrorHandler from "../middlewares/error.js";
+import ErrorHandler from "../middlewares/error.middleware.js";
 import { v2 as cloudinary } from "cloudinary";
 import { User } from "../models/user.model.js";
 import { generateToken } from "../utils/jwtToken.js";

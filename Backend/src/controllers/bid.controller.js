@@ -1,7 +1,7 @@
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import ErrorHandler from "../middlewares/error.middleware.js";
 
-import { Auction } from "../models/auction.model";
+import { Auction } from "../models/auction.model.js";
 import { User } from "../models/user.model.js";
 import { Bid } from "../models/bid.model.js";
 

@@ -1,4 +1,4 @@
-import { Auction } from "../models/auction.model";
+import { Auction } from "../models/auction.model.js";
 import { User } from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ErrorHandler from "../middlewares/error.middleware.js";
@@ -22,7 +22,6 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
       )
     );
   }
-  // Use consistent `startTime` and `endTime` fields
   const {
     title,
     description,
@@ -121,7 +120,6 @@ export const getAuctionDetails = asyncHandler(async (req, res, next) => {
   if (!auctionItem) {
     return next(new ErrorHandler("Auction not found.", 404));
   }
-  // avoid mutating stored bids order
   const bidders = (auctionItem.bids || [])
     .slice()
     .sort((a, b) => b.amount - a.amount);

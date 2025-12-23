@@ -3,11 +3,13 @@ import ErrorHandler from "../middlewares/error.middleware.js";
 import { Auction } from "../models/auction.model.js";
 import { Commission } from "../models/commissionSchema.model.js";
 import { User } from "../models/user.model.js";
+import { PaymentProof } from "../models/commission.model.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const calculateCommission = async (auctionID) => {
   const auction = await Auction.findById(auctionID);
   if (!auction) {
-    return next(new ErrorHandler("Auction item not found", 404));
+    throw new ErrorHandler("Auction item not found", 404);
   }
   const commissionRate = 0.05;
   const commission = auction.currentBid * commissionRate;
@@ -19,6 +21,9 @@ export const proofOfCommission = asyncHandler(async (req, res, next) => {
     return next(new ErrorHandler("No files were uploaded", 400));
   }
   const { proof } = req.files;
+  if (!proof) {
+    return next(new ErrorHandler("Payment proof file is required", 400));
+  }
   const { amount, comment } = req.body;
   const user = await User.findById(req.user._id);
 

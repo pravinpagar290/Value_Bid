@@ -1,15 +1,14 @@
-import ErrorHandler from "../middlewares/error.middleware";
-import asyncHandler from "../middlewares/asyncHandler";
+import ErrorHandler from "../middlewares/error.middleware.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import mongoose from "mongoose";
-import { Auction } from "../models/auction.model";
-import { PaymentProof } from "../models/paymentProof.model";
-import { use } from "react";
-import { User } from "../models/user.model";
-import { Commission } from "../models/commissionSchema.model";
+import { Auction } from "../models/auction.model.js";
+import { PaymentProof } from "../models/commission.model.js";
+import { User } from "../models/user.model.js";
+import { Commission } from "../models/commissionSchema.model.js";
 
-export const deleteAuctionItem = asyncHandler(async (req, resizeBy, next) => {
+export const deleteActionItem = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  if (!mongoose.Types.ObjectById.isValid(id)) {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     return next(new ErrorHandler("Invalid auction item ID", 400));
   }
 
@@ -33,7 +32,7 @@ export const getAllAuctionItems = asyncHandler(async (req, res, next) => {
 });
 
 export const getAllPaymentProofs = asyncHandler(async (req, res, next) => {
-  let paymentProof = PaymentProof.find();
+  const paymentProof = await PaymentProof.find();
   res.status(200).json({
     success: true,
     paymentProof,
@@ -85,7 +84,7 @@ export const deletePaymentProof = asyncHandler(async (req, res, next) => {
 });
 
 export const fetchAllUsers = asyncHandler(async (req, res, next) => {
-  const user = await User.aggregate([
+  const users = await User.aggregate([
     {
       $group: {
         _id: {
@@ -110,19 +109,19 @@ export const fetchAllUsers = asyncHandler(async (req, res, next) => {
     },
   ]);
 
-  const bidders = user.filter((user) => user.role === "bidder");
-  const auctioneer = user.filter((user) => user.role === "seller");
-
-  const transformDataToMonthlyCounts = (data, totalMonths) => {
-    const monthlyCounts = Array(totalMonths).fill(0);
-
+  const transformToMonthlyArray = (data, totalMonths = 12) => {
+    const result = Array(totalMonths).fill(0);
     data.forEach((item) => {
-      monthlyCounts[item.month - 1] = item.count;
+      result[item.month - 1] = item.count;
     });
-    return monthlyCounts;
+    return result;
   };
-  const biddersArray = tranformDataToMonthlyArray(bidders);
-  const auctioneersArray = tranformDataToMonthlyArray(auctioneers);
+
+  const bidders = users.filter((u) => u.role === "bidder");
+  const auctioneers = users.filter((u) => u.role === "seller");
+
+  const biddersArray = transformToMonthlyArray(bidders);
+  const auctioneersArray = transformToMonthlyArray(auctioneers);
 
   res.status(200).json({
     success: true,

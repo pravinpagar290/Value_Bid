@@ -4,11 +4,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import { connectionDB } from "./src/database/connection.db.js";
-import { errorMiddleware } from "./src/middlewares/error.js";
+import { errorMiddleware } from "./src/middlewares/error.middleware.js";
 import userRouter from "./src/router/user.router.js";
 
 const app = express();
-// replace explicit path with default loader so .env in project root is picked up
 config();
 
 app.use(

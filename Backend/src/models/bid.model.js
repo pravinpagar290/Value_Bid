@@ -9,7 +9,10 @@ const bidSchema = new mongoose.Schema({
       required: true,
     },
     userName: String,
-    profileImage: String,
+    profileImage: {
+      public_id: String,
+      url: String,
+    },
   },
   auctionItem: {
     type: mongoose.Schema.Types.ObjectId,

@@ -13,7 +13,6 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     bankAccountNumber,
     bankName,
     accountHolderName,
-    easypaisaAccountNumber,
     paypalEmail,
   } = req.body;
 
@@ -31,14 +30,6 @@ export const registerUser = asyncHandler(async (req, res, next) => {
           )
         );
       }
-    }
-    if (!easypaisaAccountNumber) {
-      return next(
-        new ErrorHandler(
-          "Please provide easypaisa account number for seller role",
-          400
-        )
-      );
     }
     if (!paypalEmail) {
       return next(

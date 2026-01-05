@@ -10,5 +10,5 @@ cloudinary.config({
 // ensure a fallback port if env var isn't set
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server Listening on port ${PORT}`);
+  console.log(`Server Listening on port http://localhost:${PORT}`);
 });

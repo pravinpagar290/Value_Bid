@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../api/axios.js';
 
 const userSlice = createSlice({
   name: 'user',
@@ -17,10 +17,12 @@ const userSlice = createSlice({
     registerSuccess(state, action) {
       state.isAuthenticate = true,
        state.user = action.payload.user;
+       state.loading=false
     },
     registerFailed(state, action) {
       state.isAuthenticate = false;
       state.user = {};
+      state.loading=false;
     },
     loginRequest(state, action) {
       state.user = {};
@@ -35,6 +37,7 @@ const userSlice = createSlice({
     loginFailed(state, action) {
       state.user = {};
       state.isAuthenticate = false;
+      state.loading=false
     },
   },
 });
@@ -42,11 +45,10 @@ const userSlice = createSlice({
 export const register = (data) => async (dispatch) => {
   try {
     dispatch(userSlice.actions.registerRequest());
-    const response = await axios.post(
-      'http://localhost:5000/api/v1/user/register',
+    const response = await api.post(
+      '/user/register',
       data,
       {
-        withCredentials: true,
         headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
@@ -60,18 +62,16 @@ export const register = (data) => async (dispatch) => {
 export const login = (data) => async (dispatch) => {
   dispatch(userSlice.actions.loginRequest());
   try {
-    const response = await axios.post(
-      'http://localhost:5000/api/v1/user/login',
+    const response = await api.post(
+      '/user/login',
       data,
       {
-        withCredentials: true,
-       headers: { 'Content-Type': 'application/json' },
-
+        headers: { 'Content-Type': 'application/json' },
       }
     );
     dispatch(userSlice.actions.loginSuccess(response.data));
   } catch (error) {
-    dispatch(userSlice.loginFailed());
+    dispatch(userSlice.actions.loginFailed());
   }
 };
 

@@ -8,7 +8,7 @@ import {
   getMyAuctionItems,
   removeFromAuction,
   republishItem,
-} from "../controllers/auctionItem.contoller.js";
+} from "../controllers/auctionItem.controller.js";
 
 
 const router = express.Router();

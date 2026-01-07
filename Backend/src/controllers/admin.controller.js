@@ -110,9 +110,12 @@ export const fetchAllUsers = asyncHandler(async (req, res, next) => {
   ]);
 
   const transformToMonthlyArray = (data, totalMonths = 12) => {
+    const currentYear = new Date().getFullYear();
     const result = Array(totalMonths).fill(0);
     data.forEach((item) => {
-      result[item.month - 1] = item.count;
+      if (item.year === currentYear) {
+        result[item.month - 1] = item.count;
+      }
     });
     return result;
   };
@@ -147,10 +150,13 @@ export const monthlyRevenue = asyncHandler(async (req, res, next) => {
   ]);
 
   const transformDataToMonthlyArray = (payments, totalMonths = 12) => {
+    const currentYear = new Date().getFullYear();
     const result = Array(totalMonths).fill(0);
 
     payments.forEach((payment) => {
-      result[payment._id.month - 1] = payment.totalAmount;
+      if (payment._id.year === currentYear) {
+        result[payment._id.month - 1] = payment.totalAmount;
+      }
     });
 
     return result;

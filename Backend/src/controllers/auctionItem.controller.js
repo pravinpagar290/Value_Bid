@@ -5,6 +5,7 @@ import ErrorHandler from "../middlewares/error.middleware.js";
 import { Bid } from "../models/bid.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
+import { calculateCommission } from "./commission.controller.js";
 
 export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -207,16 +208,14 @@ export const republishItem = asyncHandler(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false,
   });
+  if (auctionItem.commissionCalculated) {
+    const commission = await calculateCommission(id);
+    await User.findByIdAndUpdate(req.user._id, {
+      $inc: { unpaidCommission: -commission },
+    });
+  }
   await Bid.deleteMany({ auctionItem: auctionItem._id });
-  const createdBy = await User.findByIdAndUpdate(
-    req.user._id,
-    { unpaidCommission: 0 },
-    {
-      new: true,
-      runValidators: false,
-      useFindAndModify: false,
-    }
-  );
+  const createdBy = await User.findById(req.user._id);
   res.status(200).json({
     success: true,
     auctionItem,

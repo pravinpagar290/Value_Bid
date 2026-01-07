@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../api/axios.js';
 
 export const bidSlice = createSlice({
   name: 'bid',
@@ -22,11 +22,10 @@ export const bidSlice = createSlice({
 export const bid = (id, data) => async (dispatch) => {
   dispatch(bidSlice.actions.bidRequest());
   try {
-    const response = await axios.post(
-      `http://localhost:5000/api/v1/bids/place_bid/${id}`,
+    const response = await api.post(
+      `/bids/place_bid/${id}`,
       data,
       {
-        withCredentials: true,
         headers: { 'Content-Type': 'application/json' },
       }
     );
@@ -35,5 +34,6 @@ export const bid = (id, data) => async (dispatch) => {
     dispatch(bidSlice.actions.bidFail());
   }
 };
+
 
 export default bidSlice.reducer;

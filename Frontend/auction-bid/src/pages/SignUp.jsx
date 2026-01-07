@@ -3,6 +3,9 @@ import { register } from '../store/Slices/userSlice.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
+
+
 const SignUp = () => {
   const [userName, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -18,10 +21,11 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const { loading, isAuthenticated } = useSelector((state) => state.user);
+  const { loading, isAuthenticate } = useSelector((state) => state.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
 
     const formdata = new FormData();
     formdata.append('username', userName);
@@ -65,10 +69,41 @@ const SignUp = () => {
   }, [role]);
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticate) {
       navigateTo('/');
     }
-  }, [dispatch, loading, isAuthenticated]);
+  }, [dispatch, loading, isAuthenticate]);
+
+const validateForm = () => {
+  if (password.length < 8) {
+    toast.error('Password must be at least 8 characters');
+    return false;
+  }
+
+  if (!role) {
+    toast.error('Please select a role');
+    return false;
+  }
+
+  if (role === 'seller' && !paymentMethods) {
+    toast.error('Please select a payment method');
+    return false;
+  }
+
+  if (role === 'seller' && paymentMethods === 'banktransfer') {
+    if (!bankName || !bankACCNumber || !holder) {
+      toast.error('Please fill all bank details');
+      return false;
+    }
+  }
+
+  if (role === 'seller' && paymentMethods === 'paypal' && !paypalEmail) {
+    toast.error('PayPal email is required');
+    return false;
+  }
+
+  return true;
+};
 
   return (
     <div className="">

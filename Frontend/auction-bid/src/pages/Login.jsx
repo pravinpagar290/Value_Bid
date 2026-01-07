@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, isAuthenticated } = useSelector((state) => state.user);
+  const { loading, isAuthenticate } = useSelector((state) => state.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,11 +20,11 @@ const Login = () => {
 
   useEffect(
     () => {
-      if (isAuthenticated) {
+      if (isAuthenticate) {
         navigate('/');
       }
     },
-    [dispatch, isAuthenticated, loading]
+    [dispatch, isAuthenticate, loading]
   );
 
   return (

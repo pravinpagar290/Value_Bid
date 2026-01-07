@@ -4,10 +4,12 @@ import Signup from './pages/SignUp.jsx';
 import Login from './pages/Login.jsx';
 import Layout from './layout/Layout.jsx';
 import Home from './pages/Home.jsx';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <>
+     <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

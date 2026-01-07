@@ -1,4 +1,5 @@
 import { config } from "dotenv";
+config();
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -9,11 +10,11 @@ import userRouter from "./src/router/user.router.js";
 import adminRouter from "./src/router/admin.route.js"
 import auctionRouter from "./src/router/auction.route.js";
 import bidRouter from "./src/router/bid.route.js";
-import commissionRouter from "./src/router/commision.route.js";
+import commissionRouter from "./src/router/commission.route.js";
 import { verifyCommissionCron } from "./src/automation/verifyCommission.js";
 import { endedAuctionCron } from "./src/automation/endAuction.js";
+
 const app = express();
-config();
 
 app.use(
   cors({

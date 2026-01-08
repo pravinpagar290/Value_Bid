@@ -74,36 +74,36 @@ const SignUp = () => {
     }
   }, [dispatch, loading, isAuthenticate]);
 
-const validateForm = () => {
-  if (password.length < 8) {
-    toast.error('Password must be at least 8 characters');
-    return false;
-  }
-
-  if (!role) {
-    toast.error('Please select a role');
-    return false;
-  }
-
-  if (role === 'seller' && !paymentMethods) {
-    toast.error('Please select a payment method');
-    return false;
-  }
-
-  if (role === 'seller' && paymentMethods === 'banktransfer') {
-    if (!bankName || !bankACCNumber || !holder) {
-      toast.error('Please fill all bank details');
+  const validateForm = () => {
+    if (password.length < 8) {
+      toast.error('Password must be at least 8 characters');
       return false;
     }
-  }
 
-  if (role === 'seller' && paymentMethods === 'paypal' && !paypalEmail) {
-    toast.error('PayPal email is required');
-    return false;
-  }
+    if (!role) {
+      toast.error('Please select a role');
+      return false;
+    }
 
-  return true;
-};
+    if (role === 'seller' && !paymentMethods) {
+      toast.error('Please select a payment method');
+      return false;
+    }
+
+    if (role === 'seller' && paymentMethods === 'banktransfer') {
+      if (!bankName || !bankACCNumber || !holder) {
+        toast.error('Please fill all bank details');
+        return false;
+      }
+    }
+
+    if (role === 'seller' && paymentMethods === 'paypal' && !paypalEmail) {
+      toast.error('PayPal email is required');
+      return false;
+    }
+
+    return true;
+  };
 
   return (
     <div className="">
@@ -203,7 +203,9 @@ const validateForm = () => {
           <div></div>
         )}
         <button type="submit">Submit</button>
-        <p>Have an account? <Link to={'/login'}>Login</Link></p>
+        <p>
+          Have an account? <Link to={'/login'}>Login</Link>
+        </p>
       </form>
     </div>
   );

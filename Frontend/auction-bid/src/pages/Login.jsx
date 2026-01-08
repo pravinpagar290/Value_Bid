@@ -19,14 +19,11 @@ const Login = () => {
     dispatch(login(form));
   };
 
-  useEffect(
-    () => {
-      if (isAuthenticate) {
-        navigate('/');
-      }
-    },
-    [dispatch, isAuthenticate, loading]
-  );
+  useEffect(() => {
+    if (isAuthenticate) {
+      navigate('/');
+    }
+  }, [dispatch, isAuthenticate, loading]);
 
   return (
     <div>
@@ -50,10 +47,10 @@ const Login = () => {
           placeholder="Password"
           required
         />
-        <button type="submit" >
-          {loading ? 'Logging In...' : 'Login'}
-        </button>
-        <p>Don't have an account? <Link to={'/signup'}>Sign Up</Link></p>
+        <button type="submit">{loading ? 'Logging In...' : 'Login'}</button>
+        <p>
+          Don't have an account? <Link to={'/signup'}>Sign Up</Link>
+        </p>
       </form>
     </div>
   );

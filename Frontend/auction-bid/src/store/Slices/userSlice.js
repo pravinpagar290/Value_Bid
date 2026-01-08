@@ -53,6 +53,16 @@ const userSlice = createSlice({
       state.loading = false;
       state.isAuthenticate = false;
     },
+    fetchLeaderBoardRequest(state, action) {
+      state.loading = true;
+    },
+    fetchLeaderBoardSuccess(state, action) {
+      state.loading = false;
+      state.leaderBoard = action.payload.leaderBoard;
+    },
+    fetchLeaderBoardFailed(state, action) {
+      state.loading = false;
+    },  
   },
 });
 
@@ -83,7 +93,7 @@ export const login = (data) => async (dispatch) => {
 export const fetchUser = (data) => async (dispatch) => {
   dispatch(userSlice.actions.fetchUserRequest());
   try {
-    const response = await api.get('/user/fetchUser', data, {
+    const response = await api.get('/user/me', {
       headers: {
         'content-type': 'application/json',
       },
@@ -95,16 +105,16 @@ export const fetchUser = (data) => async (dispatch) => {
 };
 
 export const fetchLeaderBoard = (data) => async (dispatch) => {
-  dispatch(userSlice.actions.fetchUserRequest());
+  dispatch(userSlice.actions.fetchLeaderBoardRequest());
   try {
-    const response = await api.get('/user/fetchUser', data, {
+    const response = await api.get('/user/leaderboard', {
       headers: {
         'content-type': 'application/json',
       },
     });
-    dispatch(userSlice.actions.fetchUserSuccess(response.data));
+    dispatch(userSlice.actions.fetchLeaderBoardSuccess(response.data));
   } catch (error) {
-    dispatch(userSlice.actions.fetchUserFailed());
+    dispatch(userSlice.actions.fetchLeaderBoardFailed());
   }
 };
 

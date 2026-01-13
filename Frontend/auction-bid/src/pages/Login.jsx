@@ -13,9 +13,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const form = new FormData();
-    form.append('email', email);
-    form.append('password', password);
+    const form = { email, password };
     dispatch(login(form));
   };
 

@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import api from '../../api/axios';
-import { getAllAuctionItems } from './auctionSlice';
+import { getAllItem } from './auctionSlice.js';
 
 const adminSlice = createSlice({
   name: 'admin',
@@ -196,7 +195,7 @@ export const deleteAuctionItem = (id) => async (dispatch) => {
     const response = await api.delete(`/superadmin/auctionitem/delete/${id}`);
     dispatch(adminSlice.actions.successForAuctionItemDelete());
     toast.success(response.data.message);
-    dispatch(getAllAuctionItems());
+    dispatch(getAllItem());
   } catch (error) {
     dispatch(adminSlice.actions.failureForAuctionItemDelete());
     console.error(error.response.data.message);

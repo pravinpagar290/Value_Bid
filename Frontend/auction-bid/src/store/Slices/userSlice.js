@@ -58,7 +58,7 @@ const userSlice = createSlice({
     },
     fetchLeaderBoardSuccess(state, action) {
       state.loading = false;
-      state.leaderBoard = action.payload.leaderBoard;
+      state.leaderBoard = action.payload.leaderBoard || [];
     },
     fetchLeaderBoardFailed(state, action) {
       state.loading = false;

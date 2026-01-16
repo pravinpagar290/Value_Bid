@@ -15,45 +15,97 @@ const LeaderBoard = () => {
   }, [dispatch]);
 
   return (
-    <section>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {loading ? (
         <Loader />
       ) : (
-        <div>
-          <h1>
-            <CiTrophy /> Auction Leaderboard
-          </h1>
-          <div>
-            <h1>Top Collectors</h1>
-            <table>
-              <thead>
-                <tr>
-                  <th>Profile Pic</th>
-                  <th>Name</th>
-                  <th>Bid Expenditure</th>
-                  <th>Auction Won</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaderBoard.slice(0, 100).map((Element, index) => (
-                  <tr key={Element._id}>
-                    <td>
-                      <span>{index + 1}</span>
-                      <span>
-                        <img
-                          src={Element.profileImage?.url}
-                          alt={Element.username}
-                          className="h-12 w-12 object-cover rounded-full"
-                        />
-                      </span>
-                    </td>
-                    <td>{Element.username}</td>
-                    <td>{Element.moneySpent}</td>
-                    <td>{Element.auctionWon}</td>
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-indigo-600 p-8 text-white">
+            <div className="flex items-center gap-4 mb-2">
+              <CiTrophy className="text-5xl text-yellow-300" />
+              <h1 className="text-3xl font-bold">Auction Leaderboard</h1>
+            </div>
+            <p className="text-indigo-100 ml-16">
+              Recognizing our top collectors and most active bidders
+            </p>
+          </div>
+
+          <div className="p-6">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 border-b pb-4">
+              Top Collectors
+            </h2>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="text-gray-500 border-b border-gray-100">
+                    <th className="py-4 px-4 font-semibold text-sm uppercase tracking-wider">
+                      Rank
+                    </th>
+                    <th className="py-4 px-4 font-semibold text-sm uppercase tracking-wider">
+                      User
+                    </th>
+                    <th className="py-4 px-4 font-semibold text-sm uppercase tracking-wider text-right">
+                      Bid Expenditure
+                    </th>
+                    <th className="py-4 px-4 font-semibold text-sm uppercase tracking-wider text-center">
+                      Auctions Won
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {(leaderBoard || []).slice(0, 100).map((Element, index) => (
+                    <tr
+                      key={Element._id}
+                      className="hover:bg-gray-50 transition-colors duration-150"
+                    >
+                      <td className="py-4 px-4">
+                        <span
+                          className={`font-bold text-lg w-8 h-8 flex items-center justify-center rounded-full ${
+                            index === 0
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : index === 1
+                                ? 'bg-gray-100 text-gray-700'
+                                : index === 2
+                                  ? 'bg-orange-100 text-orange-700'
+                                  : 'text-gray-500'
+                          }`}
+                        >
+                          #{index + 1}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4">
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={Element.profileImage?.url}
+                            alt={Element.username}
+                            className="h-10 w-10 object-cover rounded-full border-2 border-white shadow-sm"
+                          />
+                          <span className="font-medium text-gray-900">
+                            {Element.username}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <span className="font-bold text-indigo-600">
+                          ${Element.moneySpent?.toLocaleString()}
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          {Element.auctionWon} Wins
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {leaderBoard?.length === 0 && (
+              <div className="text-center py-12 text-gray-500">
+                No data available yet.
+              </div>
+            )}
           </div>
         </div>
       )}

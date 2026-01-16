@@ -1,5 +1,8 @@
 import express from "express";
-import { isAuthenticated,isAuthorized } from "../middlewares/auth.middleware.js";
+import {
+  isAuthenticated,
+  isAuthorized,
+} from "../middlewares/auth.middleware.js";
 import { trackCommissionStatus } from "../middlewares/trackCommission.middleware.js";
 import {
   addNewAuctionItem,
@@ -10,44 +13,32 @@ import {
   republishItem,
 } from "../controllers/auctionItem.controller.js";
 
-
 const router = express.Router();
 
 router.post(
-  "/create_item",
+  "/create-item",
   isAuthenticated,
   isAuthorized("seller"),
   trackCommissionStatus,
   addNewAuctionItem
 );
 
-router.get(
-  "/items",
-   getAllItems
-  );
+router.get("/items", getAllItems);
 
-router.get(
-  "/item/:id", 
-  getMyAuctionItems
-);
+router.get("/item/:id", getMyAuctionItems);
 
 router.delete(
-  "/delete_item/:id",
+  "/delete-item/:id",
   isAuthenticated,
   isAuthorized("seller"),
   removeFromAuction
 );
 router.put(
-  "/update_item/:id",
+  "/republish-item/:id",
   isAuthenticated,
   isAuthorized("seller"),
   republishItem
 );
-router.get(
-  "/get-detail/:id",
-  isAuthenticated,
-  isAuthorized("seller"),
-  getAuctionDetails
-);
+router.get("/get-detail/:id", isAuthenticated, getAuctionDetails);
 
 export default router;

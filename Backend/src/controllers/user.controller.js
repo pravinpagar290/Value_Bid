@@ -140,10 +140,10 @@ export const getUserProfile = asyncHandler(async (req, res, next) => {
 });
 
 export const fetchLeaderboard = asyncHandler(async (req, res, next) => {
-  const users = await User.find({ moneySpent: { $gt: 0 } });
+  const users = await User.find({ role: "bidder" });
   const leaderboard = users.sort((a, b) => b.moneySpent - a.moneySpent);
   res.status(200).json({
     success: true,
-    leaderboard,
+    leaderBoard: leaderboard,
   });
 });

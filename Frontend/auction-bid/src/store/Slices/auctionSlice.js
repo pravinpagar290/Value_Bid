@@ -27,7 +27,7 @@ const auctionSlice = createSlice({
     },
     getAllItemSuccess(state, action) {
       state.loading = false;
-      state.allAuctions = action.payload;
+      state.allAuctions = action.payload || [];
     },
     getAllItemFailed(state, action) {
       state.loading = false;
@@ -37,11 +37,13 @@ const auctionSlice = createSlice({
     },
     getAuctionDetailSuccess(state, action) {
       state.loading = false;
-      state.auctionDetail = action.payload;
+      state.auctionDetail = action.payload.auctionItem;
       state.auctionBidders = action.payload.bidders;
     },
     getAuctionDetailFailed(state, action) {
       state.loading = false;
+      state.auctionDetail = state.auctionDetail;
+      state.auctionBidders = state.auctionBidders;
     },
     getMyAuctionsRequest(state, action) {
       state.loading = true;
@@ -80,7 +82,7 @@ export const getAllItem = () => async (dispatch) => {
     const response = await api.get('/auctions/items', {
       withCredentials: true,
     });
-    dispatch(auctionSlice.actions.getAllItemSuccess(response.data.item));
+    dispatch(auctionSlice.actions.getAllItemSuccess(response.data.items));
   } catch (error) {
     dispatch(auctionSlice.actions.getAllItemFailed());
   }
@@ -90,7 +92,7 @@ export const getMyAuctionItem = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.getMyAuctionsRequest());
   try {
     const response = api.get(`/auctions/item/${id}`);
-    dispatch(auctionSlice.actions.getMyAuctionsSuccess(response.data.item));
+    dispatch(auctionSlice.actions.getMyAuctionsSuccess(response.data.items));
   } catch (error) {
     dispatch(auctionSlice.actions.getMyAuctionsFailed());
   }
@@ -103,7 +105,9 @@ export const createAuction = (data) => async (dispatch) => {
       withCredentials: true,
       headers: { 'Content-Type': 'multipart/form-data' },
     });
-    dispatch(auctionSlice.actions.createAuctionSuccess(response.data.item));
+    dispatch(
+      auctionSlice.actions.createAuctionSuccess(response.data.auctionItem)
+    );
   } catch (error) {
     dispatch(auctionSlice.actions.createAuctionFailed());
   }
@@ -113,7 +117,7 @@ export const getAuctionDetail = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.getAuctionDetailRequest());
   try {
     const response = await api.get(`/auctions/get-detail/${id}`);
-    dispatch(auctionSlice.actions.getAuctionDetailSuccess(response.data.item));
+    dispatch(auctionSlice.actions.getAuctionDetailSuccess(response.data));
   } catch (error) {
     dispatch(auctionSlice.actions.getAuctionDetailFailed());
   }
@@ -123,7 +127,9 @@ export const deleteAuction = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.deleteAuctionRequest());
   try {
     const response = await api.delete(`/auctions/delete-item/${id}`);
-    dispatch(auctionSlice.actions.deleteAuctionSuccess(response.data.item));
+    dispatch(
+      auctionSlice.actions.deleteAuctionSuccess(response.data.auctionItem)
+    );
   } catch (error) {
     dispatch(auctionSlice.actions.deleteAuctionFailed());
   }
@@ -133,7 +139,9 @@ export const republishAuction = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.republishAuctionRequest());
   try {
     const response = await api.put(`/auctions/republish-item/${id}`);
-    dispatch(auctionSlice.actions.republishAuctionSuccess(response.data.item));
+    dispatch(
+      auctionSlice.actions.republishAuctionSuccess(response.data.auctionItem)
+    );
   } catch (error) {
     dispatch(auctionSlice.actions.republishAuctionFailed());
   }

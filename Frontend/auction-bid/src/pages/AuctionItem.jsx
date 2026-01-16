@@ -3,13 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { getAuctionDetail } from '../store/Slices/auctionSlice';
 import { bid } from '../store/Slices/bidSlice';
-import {Loader} from '../components/Loader';
+import { Loader } from '../components/Loader';
 import { toast } from 'react-hot-toast';
 
 const AuctionItem = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { auctionDetail, loading } = useSelector((state) => state.auction);
+  const { auctionDetail, auctionBidders, loading } = useSelector(
+    (state) => state.auction
+  );
   const { user, isAuthenticate } = useSelector((state) => state.user);
   const [bidAmount, setBidAmount] = useState('');
 
@@ -24,7 +26,7 @@ const AuctionItem = () => {
       return;
     }
     dispatch(bid(id, { amount: bidAmount })).then(() => {
-      dispatch(getAuctionDetail(id)); 
+      dispatch(getAuctionDetail(id));
       setBidAmount('');
     });
   };
@@ -34,7 +36,6 @@ const AuctionItem = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-        
         <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl border border-gray-100">
           <img
             src={auctionDetail?.image?.url}
@@ -42,7 +43,6 @@ const AuctionItem = () => {
             className="w-full h-full object-cover"
           />
         </div>
-
 
         <div className="space-y-8">
           <div>
@@ -120,7 +120,7 @@ const AuctionItem = () => {
                 Bidders
               </p>
               <p className="text-xl font-black text-gray-900">
-                {auctionDetail?.bidders?.length || 0}{' '}
+                {auctionBidders?.length || 0}{' '}
                 <span className="text-sm font-medium text-gray-400">
                   Active
                 </span>
@@ -164,8 +164,8 @@ const AuctionItem = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {auctionDetail?.bidders && auctionDetail.bidders.length > 0 ? (
-                auctionDetail.bidders.map((bid, index) => (
+              {auctionBidders && auctionBidders.length > 0 ? (
+                auctionBidders.map((bid, index) => (
                   <tr
                     key={index}
                     className="hover:bg-gray-50/50 transition-colors"

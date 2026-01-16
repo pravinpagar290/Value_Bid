@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo-2.png';
 
 const SignUp = () => {
   const [userName, setUsername] = useState('');
@@ -106,107 +107,222 @@ const SignUp = () => {
   };
 
   return (
-    <div className="">
-      <div className="logo"></div>
-      <h1>Create A Account</h1>
-      <p>Join our auction community</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={userName}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Full Name"
-          name="name"
-          required
-        />
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          name="email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          name="password"
-          required
-        />
-        <div className="flex flex-col sm:flex-1 gap-2">
-          <label className="text-[16px] text-stone-600">Profile Image</label>
-          <input type="file" onChange={imageHandler} />
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl">
+        <div className="flex flex-col items-center">
+          <img src={logo} alt="ValueBid Logo" className="h-16 w-auto mb-4" />
+          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+            Create an Account
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Join our auction community today
+          </p>
         </div>
-        <select
-          id="role"
-          name="role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          required
-        >
-          <option value="bidder">Become Bidder</option>
-          <option value="seller">Become Seller</option>
-        </select>
-        {role === 'seller' ? (
-          <div>
-            <select
-              name="paymentMethod"
-              id="paymentMethods"
-              value={paymentMethods}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            >
-              <option value="">Select Your Payment Method</option>
-              <option value="banktransfer">Bank Transfer</option>
-              <option value="paypal">PayPal</option>
-            </select>
-            {paymentMethods === 'banktransfer' && (
-              <div>
+
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={userName}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Full Name"
+                name="name"
+                required
+                className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+
+            <div className="sm:col-span-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                name="email"
+                required
+                className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+
+            <div className="sm:col-span-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                name="password"
+                required
+                className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Profile Image
+              </label>
+              <div className="flex items-center space-x-4">
+                {profileImagePreview && (
+                  <img
+                    src={profileImagePreview}
+                    alt="Preview"
+                    className="h-12 w-12 rounded-full object-cover"
+                  />
+                )}
                 <input
-                  type="text"
-                  value={bankName}
-                  placeholder="Enter Your Bank Name"
-                  required
-                  onChange={(e) => setBankName(e.target.value)}
-                />
-                <input
-                  type="text"
-                  value={holder}
-                  placeholder="Enter Your Bank Account Name"
-                  required
-                  onChange={(e) => setHolder(e.target.value)}
-                />
-                <input
-                  type="number"
-                  value={bankACCNumber}
-                  placeholder="Enter Your Bank Account Number"
-                  required
-                  onChange={(e) => setBankACCNumber(e.target.value)}
+                  type="file"
+                  onChange={imageHandler}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                 />
               </div>
-            )}
-            {paymentMethods === 'paypal' && (
-              <div>
-                <input
-                  type="email"
-                  name="paypalEmail"
-                  value={paypalEmail}
-                  placeholder="Enter PayPal Email"
-                  onChange={(e) => setPaypalEmail(e.target.value)}
-                  required
-                />
+            </div>
+
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Role
+              </label>
+              <select
+                id="role"
+                name="role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+                className="block w-full px-3 py-3 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="" disabled>
+                  Select Role
+                </option>
+                <option value="bidder">Become Bidder (Buy Items)</option>
+                <option value="seller">Become Seller (List Items)</option>
+              </select>
+            </div>
+
+            {role === 'seller' && (
+              <div className="sm:col-span-2 space-y-4 border-t border-gray-200 pt-4">
+                <h3 className="text-lg font-medium text-gray-900">
+                  Seller Details
+                </h3>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Payment Method
+                  </label>
+                  <select
+                    name="paymentMethod"
+                    id="paymentMethods"
+                    value={paymentMethods}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className="block w-full px-3 py-3 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  >
+                    <option value="">Select Your Payment Method</option>
+                    <option value="banktransfer">Bank Transfer</option>
+                    <option value="paypal">PayPal</option>
+                  </select>
+                </div>
+
+                {paymentMethods === 'banktransfer' && (
+                  <div className="space-y-4">
+                    <input
+                      type="text"
+                      value={bankName}
+                      placeholder="Bank Name"
+                      required
+                      onChange={(e) => setBankName(e.target.value)}
+                      className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                    <input
+                      type="text"
+                      value={holder}
+                      placeholder="Account Holder Name"
+                      required
+                      onChange={(e) => setHolder(e.target.value)}
+                      className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                    <input
+                      type="number"
+                      value={bankACCNumber}
+                      placeholder="Bank Account Number"
+                      required
+                      onChange={(e) => setBankACCNumber(e.target.value)}
+                      className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                )}
+                {paymentMethods === 'paypal' && (
+                  <div>
+                    <input
+                      type="email"
+                      name="paypalEmail"
+                      value={paypalEmail}
+                      placeholder="PayPal Email Address"
+                      onChange={(e) => setPaypalEmail(e.target.value)}
+                      required
+                      className="appearance-none rounded-lg relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>
-        ) : (
-          <div></div>
-        )}
-        <button type="submit">Submit</button>
-        <p>
-          Have an account? <Link to={'/login'}>Login</Link>
-        </p>
-      </form>
+
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+            >
+              {loading ? (
+                <span className="flex items-center">
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Creating Account...
+                </span>
+              ) : (
+                'Create Account'
+              )}
+            </button>
+          </div>
+
+          <div className="flex items-center justify-center">
+            <div className="text-sm">
+              <span className="text-gray-600">Already have an account? </span>
+              <Link
+                to="/login"
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+              >
+                Login
+              </Link>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

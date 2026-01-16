@@ -1,4 +1,4 @@
-import React from 'react';
+import logo from '../assets/logo-1.png';
 import { CiMenuBurger, CiShoppingCart } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -17,8 +17,8 @@ const Header = ({ onOpenSidebar }) => {
         >
           <CiMenuBurger className="text-xl" />
         </button>
-        <Link to="/" className="text-xl font-bold text-gray-800">
-          ValueBid
+        <Link to="/">
+          <img src={logo} alt="ValueBid" className="h-12 w-auto" />
         </Link>
       </div>
 

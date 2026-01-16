@@ -2,7 +2,7 @@ import React, { useState ,useEffect} from 'react'
 import { Link } from 'react-router-dom'
 
 
-const Card = ({imgSrc,title,startingBid,startTime,endTime,id}) => {
+export const Card = ({imgSrc,title,startingBid,startTime,endTime,id}) => {
   const calculateTimeLeft=()=>{
     const now=new Date();
     const startDifference=new Date(startTime)-now;
@@ -54,5 +54,3 @@ const Card = ({imgSrc,title,startingBid,startTime,endTime,id}) => {
       </Link></div>
   )
 }
-
-export default Card

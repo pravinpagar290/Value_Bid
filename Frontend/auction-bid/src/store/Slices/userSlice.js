@@ -62,7 +62,12 @@ const userSlice = createSlice({
     },
     fetchLeaderBoardFailed(state, action) {
       state.loading = false;
-    },  
+    },
+    logoutSuccess(state, action) {
+      state.user = {};
+      state.isAuthenticate = false;
+      state.loading = false;
+    },
   },
 });
 
@@ -87,6 +92,16 @@ export const login = (data) => async (dispatch) => {
     dispatch(userSlice.actions.loginSuccess(response.data));
   } catch (error) {
     dispatch(userSlice.actions.loginFailed());
+  }
+};
+
+export const logout = () => async (dispatch) => {
+  try {
+    await api.get('/user/logout');
+    dispatch(userSlice.actions.logoutSuccess());
+  } catch (error) {
+    // Even if backend fails, we logout on frontend
+    dispatch(userSlice.actions.logoutSuccess());
   }
 };
 

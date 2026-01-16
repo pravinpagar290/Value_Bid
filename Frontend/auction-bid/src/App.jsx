@@ -6,6 +6,10 @@ import Signup from './pages/SignUp.jsx';
 import Login from './pages/Login.jsx';
 import Layout from './layout/Layout.jsx';
 import Home from './pages/Home.jsx';
+import Auctions from './pages/Auction.jsx';
+import { CreateAuction } from './pages/CreateAuction.jsx';
+import AuctionItem from './pages/AuctionItem.jsx';
+import ViewAuctionDetails from './pages/ViewAuctionDetails.jsx';
 import LeaderBoard from './pages/LeaderBoard.jsx';
 import UserProfile from './pages/UserProfile.jsx';
 import { fetchUser } from './store/Slices/userSlice';
@@ -27,6 +31,10 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/auctions" element={<Auctions />} />
+          <Route path="/create-auction" element={<CreateAuction />} />
+          <Route path="/auction/item/:id" element={<AuctionItem />} />
+          <Route path="/auction/details/:id" element={<ViewAuctionDetails />} />
           <Route path="/leader-board" element={<LeaderBoard />} />
           <Route path="/me" element={<UserProfile />} />
         </Route>

@@ -12,125 +12,131 @@ const auctionSlice = createSlice({
     myAuctions: [],
     allAuctions: [],
   },
-  reducers:{
-    createAuctionRequest(state, action){
+  reducers: {
+    createAuctionRequest(state, action) {
       state.loading = true;
     },
-    createAuctionSuccess(state, action){
+    createAuctionSuccess(state, action) {
       state.loading = false;
     },
-    createAuctionFailed(state, action){
+    createAuctionFailed(state, action) {
       state.loading = false;
     },
-    getAllItemRequest(state, action){
+    getAllItemRequest(state, action) {
       state.loading = true;
     },
-    getAllItemSuccess(state, action){
+    getAllItemSuccess(state, action) {
+      state.loading = false;
+      state.allAuctions = action.payload;
+    },
+    getAllItemFailed(state, action) {
       state.loading = false;
     },
-    getAllItemFailed(state, action){
-      state.loading = false;
-    },
-    getAuctionDetailRequest(state, action){
+    getAuctionDetailRequest(state, action) {
       state.loading = true;
     },
-    getAuctionDetailSuccess(state, action){
+    getAuctionDetailSuccess(state, action) {
+      state.loading = false;
+      state.auctionDetail = action.payload;
+      state.auctionBidders = action.payload.bidders;
+    },
+    getAuctionDetailFailed(state, action) {
       state.loading = false;
     },
-    getAuctionDetailFailed(state, action){
-      state.loading = false;
-    },
-    getMyAuctionsRequest(state, action){
+    getMyAuctionsRequest(state, action) {
       state.loading = true;
     },
-    getMyAuctionsSuccess(state, action){
+    getMyAuctionsSuccess(state, action) {
+      state.loading = false;
+      state.myAuctions = action.payload;
+    },
+    getMyAuctionsFailed(state, action) {
       state.loading = false;
     },
-    getMyAuctionsFailed(state, action){
-      state.loading = false;
-    },
-    republishAuctionRequest(state, action){
+    republishAuctionRequest(state, action) {
       state.loading = true;
     },
-    republishAuctionSuccess(state, action){
+    republishAuctionSuccess(state, action) {
       state.loading = false;
     },
-    republishAuctionFailed(state, action){
+    republishAuctionFailed(state, action) {
       state.loading = false;
     },
-    deleteAuctionRequest(state, action){
+    deleteAuctionRequest(state, action) {
       state.loading = true;
     },
-    deleteAuctionSuccess(state, action){
+    deleteAuctionSuccess(state, action) {
       state.loading = false;
     },
-    deleteAuctionFailed(state, action){
+    deleteAuctionFailed(state, action) {
       state.loading = false;
     },
-  }
+  },
 });
 
-export const getAllItem=()=>async(dispatch)=>{
+export const getAllItem = () => async (dispatch) => {
   dispatch(auctionSlice.actions.getAllItemRequest());
   try {
-    const response= await api.get('/auctions/items',{withCredentials:true})
-    dispatch(auctionSlice.actions.getAllItemSuccess(response.data.item))
+    const response = await api.get('/auctions/items', {
+      withCredentials: true,
+    });
+    dispatch(auctionSlice.actions.getAllItemSuccess(response.data.item));
   } catch (error) {
-    dispatch(auctionSlice.actions.getAllItemFailed())
+    dispatch(auctionSlice.actions.getAllItemFailed());
   }
-}
+};
 
-export const getMyAuctionItem=(id)=>async(dispatch)=>{
-  dispatch(auctionSlice.actions.getMyAuctionsRequest())
+export const getMyAuctionItem = (id) => async (dispatch) => {
+  dispatch(auctionSlice.actions.getMyAuctionsRequest());
   try {
-    const response=api.get(`/auctions/item/${id}`)
-    dispatch(auctionSlice.actions.getMyAuctionsSuccess(response.data.item))
+    const response = api.get(`/auctions/item/${id}`);
+    dispatch(auctionSlice.actions.getMyAuctionsSuccess(response.data.item));
   } catch (error) {
-    dispatch(auctionSlice.actions.getMyAuctionsFailed())
+    dispatch(auctionSlice.actions.getMyAuctionsFailed());
   }
-}
+};
 
-export const createAuction=(data)=>async(dispatch)=>{
-  dispatch(auctionSlice.actions.createAuctionRequest())
+export const createAuction = (data) => async (dispatch) => {
+  dispatch(auctionSlice.actions.createAuctionRequest());
   try {
-    const response= await api.post('/auctions/create-item',data,{
-      withCredentials:true,
-      headers:{"Content-Type": "multipart/form-data"}
-    })
-    dispatch(auctionSlice.actions.createAuctionSuccess(response.data.item))
+    const response = await api.post('/auctions/create-item', data, {
+      withCredentials: true,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    dispatch(auctionSlice.actions.createAuctionSuccess(response.data.item));
   } catch (error) {
-    dispatch(auctionSlice.actions.createAuctionFailed())
+    dispatch(auctionSlice.actions.createAuctionFailed());
   }
-}
+};
 
-export const getAuctionDetail=(id)=>async(dispatch)=>{
-  dispatch(auctionSlice.actions.getAuctionDetailRequest())
+export const getAuctionDetail = (id) => async (dispatch) => {
+  dispatch(auctionSlice.actions.getAuctionDetailRequest());
   try {
-    const response=await api.get(`/auctions/get-detail/${id}`)
-    dispatch(auctionSlice.actions.getAuctionDetailSuccess(response.data.item))
+    const response = await api.get(`/auctions/get-detail/${id}`);
+    dispatch(auctionSlice.actions.getAuctionDetailSuccess(response.data.item));
   } catch (error) {
-    dispatch(auctionSlice.actions.getAuctionDetailFailed())
+    dispatch(auctionSlice.actions.getAuctionDetailFailed());
   }
-}
+};
 
-export const deleteAuction=(id)=>async(dispatch)=>{
-  dispatch(auctionSlice.actions.deleteAuctionRequest())
+export const deleteAuction = (id) => async (dispatch) => {
+  dispatch(auctionSlice.actions.deleteAuctionRequest());
   try {
-    const response=await api.delete(`/auctions/delete-item/${id}`)
-    dispatch(auctionSlice.actions.deleteAuctionSuccess(response.data.item))
+    const response = await api.delete(`/auctions/delete-item/${id}`);
+    dispatch(auctionSlice.actions.deleteAuctionSuccess(response.data.item));
   } catch (error) {
-    dispatch(auctionSlice.actions.deleteAuctionFailed())
+    dispatch(auctionSlice.actions.deleteAuctionFailed());
   }
-}
+};
 
-export const republishAuction=(id)=>async(dispatch)=>{
-  dispatch(auctionSlice.actions.republishAuctionRequest())
+export const republishAuction = (id) => async (dispatch) => {
+  dispatch(auctionSlice.actions.republishAuctionRequest());
   try {
-    const response=await api.put(`/auctions/republish-item/${id}`)
-    dispatch(auctionSlice.actions.republishAuctionSuccess(response.data.item))
+    const response = await api.put(`/auctions/republish-item/${id}`);
+    dispatch(auctionSlice.actions.republishAuctionSuccess(response.data.item));
   } catch (error) {
-    dispatch(auctionSlice.actions.republishAuctionFailed())
+    dispatch(auctionSlice.actions.republishAuctionFailed());
   }
-}
+};
 
 export default auctionSlice.reducer;

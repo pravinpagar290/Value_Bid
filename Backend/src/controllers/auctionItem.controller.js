@@ -227,3 +227,16 @@ export const republishItem = asyncHandler(async (req, res, next) => {
     createdBy,
   });
 });
+
+export const getAuctionsWon = asyncHandler(async (req, res, next) => {
+  // Find auctions where the current user is the highest bidder and logic says its won
+  // Typically 'highestBidder' field is populated by cron job on end.
+  const auctions = await Auction.find({ highestBidder: req.user._id }).populate(
+    "createdBy",
+    "username email paymentMethods"
+  );
+  res.status(200).json({
+    success: true,
+    auctions,
+  });
+});

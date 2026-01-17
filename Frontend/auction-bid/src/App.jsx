@@ -13,6 +13,7 @@ import ViewAuctionDetails from './pages/ViewAuctionDetails.jsx';
 import LeaderBoard from './pages/LeaderBoard.jsx';
 import UserProfile from './pages/UserProfile.jsx';
 import MyAuction from './pages/MyAuction.jsx';
+import Cart from './pages/Cart.jsx';
 import { fetchUser } from './store/Slices/userSlice';
 
 import { Toaster } from 'react-hot-toast';
@@ -39,6 +40,7 @@ function App() {
           <Route path="/leader-board" element={<LeaderBoard />} />
           <Route path="/me" element={<UserProfile />} />
           <Route path="/my-auctions" element={<MyAuction />} />
+          <Route path="/my-winnings" element={<Cart />} />
         </Route>
       </Routes>
     </>

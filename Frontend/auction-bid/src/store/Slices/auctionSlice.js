@@ -10,6 +10,7 @@ const auctionSlice = createSlice({
     auctionDetail: {},
     auctionBidders: {},
     myAuctions: [],
+    myWonAuctions: [],
     allAuctions: [],
   },
   reducers: {
@@ -72,6 +73,17 @@ const auctionSlice = createSlice({
     },
     deleteAuctionFailed(state, action) {
       state.loading = false;
+    },
+    getWonAuctionsRequest(state, action) {
+      state.loading = true;
+    },
+    getWonAuctionsSuccess(state, action) {
+      state.loading = false;
+      state.myWonAuctions = action.payload;
+    },
+    getWonAuctionsFailed(state, action) {
+      state.loading = false;
+      state.myWonAuctions = [];
     },
   },
 });
@@ -144,6 +156,18 @@ export const republishAuction = (id) => async (dispatch) => {
     );
   } catch (error) {
     dispatch(auctionSlice.actions.republishAuctionFailed());
+  }
+};
+
+export const getWonAuctions = () => async (dispatch) => {
+  dispatch(auctionSlice.actions.getWonAuctionsRequest());
+  try {
+    const response = await api.get('/auctions/won');
+    dispatch(
+      auctionSlice.actions.getWonAuctionsSuccess(response.data.auctions)
+    );
+  } catch (error) {
+    dispatch(auctionSlice.actions.getWonAuctionsFailed());
   }
 };
 

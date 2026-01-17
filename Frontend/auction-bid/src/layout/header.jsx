@@ -23,7 +23,7 @@ const Header = ({ onOpenSidebar }) => {
       </div>
 
       <div className="flex items-center gap-4">
-        <Link to={'/cart'} className="p-2 hover:bg-gray-100 rounded-full">
+        <Link to={'/my-winnings'} className="p-2 hover:bg-gray-100 rounded-full">
           <CiShoppingCart className="text-xl" />
         </Link>
         {isAuthenticate ? <LogOutBtn /> : <LogInBtn />}

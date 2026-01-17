@@ -62,6 +62,16 @@ const SideBar = ({ isOpen, onClose }) => {
             Leaderboard
           </Link>
 
+          {isAuthenticate && user?.role === 'bidder' && (
+            <Link
+              to="/my-winnings"
+              onClick={onClose}
+              className="block px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-700 font-bold transition-all"
+            >
+              My Winnings (Cart)
+            </Link>
+          )}
+
           {isAuthenticate && user?.role === 'seller' && (
             <>
               <Link

@@ -11,6 +11,7 @@ import {
   getMyAuctionItems,
   removeFromAuction,
   republishItem,
+  getAuctionsWon,
 } from "../controllers/auctionItem.controller.js";
 
 const router = express.Router();
@@ -39,6 +40,8 @@ router.put(
   isAuthorized("seller"),
   republishItem
 );
+// Route for getting auctions won by the user
+router.get("/won", isAuthenticated, getAuctionsWon);
 router.get("/get-detail/:id", isAuthenticated, getAuctionDetails);
 
 export default router;

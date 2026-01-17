@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FaUserCircle, FaChartLine, FaRegClock } from 'react-icons/fa';
 
 export const Card = ({
   imgSrc,
@@ -8,6 +9,9 @@ export const Card = ({
   startTime,
   endTime,
   id,
+  seller,
+  currentBid,
+  bidCount = 0,
 }) => {
   const calculateTimeLeft = () => {
     const now = new Date();
@@ -55,57 +59,95 @@ export const Card = ({
     return `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
   };
 
+  const displayPrice = currentBid > 0 ? currentBid : startingBid;
+
   return (
-    <Link
-      to={`/auction/item/${id}`}
-      className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
-    >
-      <div className="relative aspect-4/3 overflow-hidden bg-gray-100">
-        <img
-          src={imgSrc}
-          alt={title}
-          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-        />
-        <div className="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-          {timeLeft.type === 'Ended' ? 'Closed' : 'Live'}
+    <div className="bg-white rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col h-full group">
+      {/* Image Section */}
+      <div className="relative aspect-square overflow-hidden bg-gray-900">
+        <Link to={`/auction/item/${id}`}>
+          <img
+            src={imgSrc}
+            alt={title}
+            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+          />
+        </Link>
+        <div className="absolute top-4 right-4">
+          {timeLeft.type === 'Starts In:' ? (
+            <span className="bg-yellow-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide shadow-md">
+              Upcoming
+            </span>
+          ) : timeLeft.type === 'Ended' ? (
+            <span className="bg-gray-800 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide shadow-md">
+              Closed
+            </span>
+          ) : (
+            <span className="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide shadow-md animate-pulse">
+              Live
+            </span>
+          )}
         </div>
       </div>
 
-      <div className="p-5 flex flex-col grow">
-        <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-1 group-hover:text-indigo-600 transition-colors">
-          {title}
-        </h2>
-
-        <div className="mt-auto space-y-3">
-          <div className="flex justify-between items-end">
-            <div>
-              <p className="text-xs text-gray-500 font-medium uppercase">
-                Current Bid
-              </p>
-              <p className="text-lg font-black text-gray-900">
-                ₹{startingBid?.toLocaleString()}
-              </p>
-            </div>
+      {/* Content Section */}
+      <div className="p-6 flex flex-col grow">
+        <div className="mb-4">
+          <Link to={`/auction/item/${id}`}>
+            <h2 className="text-xl font-bold text-gray-900 mb-2 leading-tight group-hover:text-indigo-600 transition-colors line-clamp-2">
+              {title}
+            </h2>
+          </Link>
+          <div className="flex items-center gap-2 text-gray-500 text-sm">
+            <FaUserCircle className="text-gray-400 text-lg" />
+            <span className="font-medium">{seller || 'Unknown Seller'}</span>
           </div>
+        </div>
 
-          <div
-            className={`flex items-center justify-between p-3 rounded-xl ${
-              timeLeft.type === 'Ends In:'
-                ? 'bg-white text-gray-900'
-                : timeLeft.type === 'Starts In:'
-                  ? 'bg-indigo-50 text-indigo-700'
-                  : 'bg-gray-100 text-gray-500'
-            }`}
-          >
-            <span className="text-xs font-bold uppercase">{timeLeft.type}</span>
-            <span className="text-sm font-mono font-bold">
-              {timeLeft.type === 'Ended'
-                ? 'Auction Closed'
-                : formatTimeLeft(timeLeft)}
+        <div className="mb-6">
+          <p className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">
+            Current Bid
+          </p>
+          <div className="flex items-baseline gap-2">
+            <span className="text-3xl font-black text-green-600">
+              ₹{displayPrice?.toLocaleString()}
             </span>
           </div>
+          <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
+            <FaChartLine className="text-gray-400" />
+            <span className="font-bold">{bidCount} bids</span>
+            <span className="text-gray-300">•</span>
+            <span>Starting: ₹{startingBid?.toLocaleString()}</span>
+          </div>
+        </div>
+
+        {/* Timer Box */}
+        <div className="bg-gray-50 rounded-2xl p-4 mb-6 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-400 shadow-sm border border-gray-100">
+            <FaRegClock />
+          </div>
+          <div>
+            <p className="text-xs text-gray-400 font-bold uppercase">
+              {timeLeft.type === 'Ended' ? 'Auction Status' : 'Time Remaining'}
+            </p>
+            <p className="text-lg font-black text-gray-900">
+              {timeLeft.type === 'Ended' ? 'Ended' : formatTimeLeft(timeLeft)}
+            </p>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="grid grid-cols-2 gap-3 mt-auto">
+          <Link
+            to={`/auction/item/${id}`}
+            className="flex justify-center items-center bg-black text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
+          >
+            Place Bid
+          </Link>
+          <button className="flex justify-center items-center bg-white border border-gray-200 text-gray-900 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors">
+            Watch
+          </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };

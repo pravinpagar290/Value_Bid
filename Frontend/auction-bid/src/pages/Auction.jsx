@@ -30,6 +30,9 @@ const Auctions = () => {
               startTime={item.startTime}
               endTime={item.endTime}
               id={item._id}
+              seller={item.createdBy?.username}
+              currentBid={item.currentBid}
+              bidCount={item.bids?.length}
             />
           ))}
         </div>

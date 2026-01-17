@@ -109,7 +109,7 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
 });
 
 export const getAllItems = asyncHandler(async (req, res, next) => {
-  let items = await Auction.find();
+  let items = await Auction.find().populate("createdBy", "username");
   res.status(200).json({ success: true, items });
 });
 
@@ -118,7 +118,10 @@ export const getAuctionDetails = asyncHandler(async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return next(new ErrorHandler("Invalid Id format.", 400));
   }
-  const auctionItem = await Auction.findById(id);
+  const auctionItem = await Auction.findById(id).populate(
+    "createdBy",
+    "username"
+  );
   if (!auctionItem) {
     return next(new ErrorHandler("Auction not found.", 404));
   }

@@ -84,6 +84,14 @@ const UserProfile = () => {
 
                 {user?.role === 'seller' && (
                   <div>
+                    <div className="mb-6">
+                      <button
+                        onClick={() => navigate('/my-auctions')}
+                        className="w-full bg-indigo-600 text-white py-3 px-4 rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200 flex justify-center items-center gap-2"
+                      >
+                        View My Auctions
+                      </button>
+                    </div>
                     <h2 className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b">
                       Payment Details
                     </h2>

@@ -78,27 +78,63 @@ const AuctionItem = () => {
             </div>
 
             {/* Bidding Interface */}
-            <form onSubmit={handleBid} className="space-y-4">
-              <div className="relative">
-                <span className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">
-                  ₹
-                </span>
-                <input
-                  type="number"
-                  value={bidAmount}
-                  onChange={(e) => setBidAmount(e.target.value)}
-                  placeholder="Enter your bid amount"
-                  className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-500 focus:bg-white px-10 py-5 rounded-2xl outline-none transition-all font-bold text-lg"
-                  required
-                />
+            {new Date(auctionDetail?.startTime) > new Date() ? (
+              <div className="bg-gray-50 p-6 rounded-2xl border-2 border-dashed border-gray-200 text-center space-y-3">
+                <p className="text-gray-500 font-bold">
+                  Bidding for this item hasn't started yet
+                </p>
+                <div className="text-2xl font-black text-gray-900">
+                  Starts{' '}
+                  {new Date(auctionDetail?.startTime).toLocaleDateString()}
+                </div>
+                <div className="text-sm font-bold text-gray-400">
+                  at {new Date(auctionDetail?.startTime).toLocaleTimeString()}
+                </div>
+                <button
+                  disabled
+                  className="w-full bg-gray-200 text-gray-400 py-4 rounded-2xl font-black text-lg cursor-not-allowed mt-4"
+                >
+                  Starting Soon
+                </button>
               </div>
-              <button
-                type="submit"
-                className="w-full bg-gray-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-blue-600 transition-all transform active:scale-[0.98] shadow-lg shadow-gray-200"
-              >
-                Place Bid Now
-              </button>
-            </form>
+            ) : auctionDetail?.createdBy?._id === user?._id ? (
+              <div className="bg-gray-50 p-6 rounded-2xl border-2 border-dashed border-gray-200 text-center space-y-3">
+                <p className="text-gray-500 font-bold">
+                  You are the seller of this auction
+                </p>
+                <div className="text-xl font-black text-gray-900">
+                  Sellers cannot bid on their own items
+                </div>
+                <button
+                  disabled
+                  className="w-full bg-gray-200 text-gray-400 py-4 rounded-2xl font-black text-lg cursor-not-allowed mt-4"
+                >
+                  Bidding Disabled
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleBid} className="space-y-4">
+                <div className="relative">
+                  <span className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">
+                    ₹
+                  </span>
+                  <input
+                    type="number"
+                    value={bidAmount}
+                    onChange={(e) => setBidAmount(e.target.value)}
+                    placeholder="Enter your bid amount"
+                    className="w-full bg-gray-50 border-2 border-transparent focus:border-blue-500 focus:bg-white px-10 py-5 rounded-2xl outline-none transition-all font-bold text-lg"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-gray-900 text-white py-5 rounded-2xl font-black text-lg hover:bg-blue-600 transition-all transform active:scale-[0.98] shadow-lg shadow-gray-200"
+                >
+                  Place Bid Now
+                </button>
+              </form>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

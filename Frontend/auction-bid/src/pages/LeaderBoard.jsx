@@ -20,12 +20,12 @@ const LeaderBoard = () => {
         <Loader />
       ) : (
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-indigo-600 p-8 text-white">
+          <div className="bg-white p-8 text-black border-b-1">
             <div className="flex items-center gap-4 mb-2">
-              <CiTrophy className="text-5xl text-yellow-300" />
-              <h1 className="text-3xl font-bold">Auction Leaderboard</h1>
+              <CiTrophy className="text-5xl text-black" />
+              <h1 className="text-3xl font-light">Auction Leaderboard</h1>
             </div>
-            <p className="text-indigo-100 ml-16">
+            <p className="text-black-100 ml-16">
               Recognizing our top collectors and most active bidders
             </p>
           </div>

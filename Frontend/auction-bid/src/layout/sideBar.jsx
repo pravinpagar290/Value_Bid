@@ -3,6 +3,7 @@ import { TfiClose } from 'react-icons/tfi';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../store/Slices/userSlice';
+import logo from '../assets/logo-1.png';
 
 const SideBar = ({ isOpen, onClose }) => {
   const { isAuthenticate, user } = useSelector((state) => state.user);
@@ -29,7 +30,7 @@ const SideBar = ({ isOpen, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center p-6 border-b border-gray-100">
-          <h2 className="text-xl font-black text-gray-900">ValueBid</h2>
+          <img src={logo} alt="ValueBid" className="h-12 w-auto" />
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -62,13 +63,22 @@ const SideBar = ({ isOpen, onClose }) => {
           </Link>
 
           {isAuthenticate && user?.role === 'seller' && (
-            <Link
-              to="/create-auction"
-              onClick={onClose}
-              className="block px-4 py-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold transition-all"
-            >
-              Create Auction
-            </Link>
+            <>
+              <Link
+                to="/create-auction"
+                onClick={onClose}
+                className="block px-4 py-3 rounded-xl bg-indigo-50 text-indigo-700 font-bold transition-all"
+              >
+                Create Auction
+              </Link>
+              <Link
+                to="/my-auctions"
+                onClick={onClose}
+                className="block px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-700 font-bold transition-all"
+              >
+                My Auctions
+              </Link>
+            </>
           )}
 
           <div className="border-t border-gray-100 my-4 pt-4">

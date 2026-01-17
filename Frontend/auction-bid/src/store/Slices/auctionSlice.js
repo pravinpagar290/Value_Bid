@@ -91,7 +91,7 @@ export const getAllItem = () => async (dispatch) => {
 export const getMyAuctionItem = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.getMyAuctionsRequest());
   try {
-    const response = api.get(`/auctions/item/${id}`);
+    const response = await api.get(`/auctions/item/${id}`);
     dispatch(auctionSlice.actions.getMyAuctionsSuccess(response.data.items));
   } catch (error) {
     dispatch(auctionSlice.actions.getMyAuctionsFailed());

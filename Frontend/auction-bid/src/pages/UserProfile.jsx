@@ -19,7 +19,7 @@ const UserProfile = () => {
         <Loader />
       ) : (
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="bg-linear-to-r from-indigo-500 to-purple-600 h-32 md:h-48"></div>
+          <div className="bg-linear-to-r from-white to-black h-32 md:h-48"></div>
           <div className="relative px-6 pb-8">
             <div className="relative -mt-16 mb-6 flex flex-col items-center md:block md:ml-6">
               <img
@@ -87,7 +87,7 @@ const UserProfile = () => {
                     <div className="mb-6">
                       <button
                         onClick={() => navigate('/my-auctions')}
-                        className="w-full bg-indigo-600 text-white py-3 px-4 rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200 flex justify-center items-center gap-2"
+                        className="w-full bg-black text-white py-3 px-4 rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200 flex justify-center items-center gap-2"
                       >
                         View My Auctions
                       </button>

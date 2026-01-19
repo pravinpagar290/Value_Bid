@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllItem } from '../store/Slices/auctionSlice';
 import { Loader } from '../components/Loader';
 import { Card } from '../components/Card';
+import Logo2 from '../assets/Logo-2.png';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,17 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>ValueBid - Home</title>
+        <meta
+          name="description"
+          content="ValueBid is the premium marketplace for exclusive auctions. Discover unique treasures and bid in real-time."
+        />
+        <meta
+          name="keywords"
+          content="auction, bidding, detailed auctions, ValueBid, buy, sell"
+        />
+      </Helmet>
       <section className="bg-white">
         <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
           <div className="mr-auto place-self-center lg:col-span-7">
@@ -55,11 +68,8 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-            <img
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png"
-              alt="mockup"
-            />
+          <div className="hidden lg:mt-0 lg:col-span-4 lg:flex">
+            <img src={Logo2} alt="mockup" />
           </div>
         </div>
       </section>

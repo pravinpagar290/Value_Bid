@@ -55,7 +55,7 @@ export const CreateAuction = () => {
       form.append('image', image);
     }
 
-    dispatch(createAuction(form));
+    dispatch(createAuction(form, navigate));
   };
 
   return (

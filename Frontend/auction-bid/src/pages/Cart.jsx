@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getWonAuctions } from '../store/Slices/auctionSlice';
 import { Loader } from '../components/Loader';
 import { Link } from 'react-router-dom';
+import PaymentMethod from '../components/PaymentMethod';
 
 const Cart = () => {
   const dispatch = useDispatch();
   const { myWonAuctions, loading } = useSelector((state) => state.auction);
   const { isAuthenticate } = useSelector((state) => state.user);
+  const [selectedAuction, setSelectedAuction] = useState(null);
 
   useEffect(() => {
     if (isAuthenticate) {
@@ -87,13 +89,22 @@ const Cart = () => {
                   >
                     View
                   </Link>
-                  <button className="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200">
+                  <button
+                    className="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
+                    onClick={() => setSelectedAuction(item)}
+                  >
                     Pay Now
                   </button>
                 </div>
               </div>
             ))}
           </div>
+        )}
+        {selectedAuction && (
+          <PaymentMethod
+            auctionItem={selectedAuction}
+            onClose={() => setSelectedAuction(null)}
+          />
         )}
       </div>
     </div>

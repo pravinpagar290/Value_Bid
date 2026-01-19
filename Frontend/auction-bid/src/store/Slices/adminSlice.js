@@ -14,7 +14,7 @@ const adminSlice = createSlice({
     singlePaymentProof: {},
   },
   reducers: {
-    requestForMonthlyRevenue(state, action) {
+    requestForMonthlyRevenue(state) {
       state.loading = true;
       state.monthlyRevenue = [];
     },
@@ -22,11 +22,11 @@ const adminSlice = createSlice({
       state.loading = false;
       state.monthlyRevenue = action.payload;
     },
-    failedForMonthlyRevenue(state, action) {
+    failedForMonthlyRevenue(state) {
       state.loading = false;
       state.monthlyRevenue = [];
     },
-    requestForAllUsers(state, action) {
+    requestForAllUsers(state) {
       state.loading = true;
       state.totalAuctioneers = [];
       state.totalBidders = [];
@@ -36,12 +36,12 @@ const adminSlice = createSlice({
       state.totalAuctioneers = action.payload.auctioneersArray;
       state.totalBidders = action.payload.biddersArray;
     },
-    failureForAllUsers(state, action) {
+    failureForAllUsers(state) {
       state.loading = false;
       state.totalAuctioneers = [];
       state.totalBidders = [];
     },
-    requestForPaymentProofs(state, action) {
+    requestForPaymentProofs(state) {
       state.loading = true;
       state.paymentProofs = [];
     },
@@ -49,20 +49,20 @@ const adminSlice = createSlice({
       state.loading = false;
       state.paymentProofs = action.payload;
     },
-    failureForPaymentProofs(state, action) {
+    failureForPaymentProofs(state) {
       state.loading = false;
       state.paymentProofs = [];
     },
-    requestForDeletePaymentProof(state, action) {
+    requestForDeletePaymentProof(state) {
       state.loading = true;
     },
-    successForDeletePaymentProof(state, action) {
+    successForDeletePaymentProof(state) {
       state.loading = false;
     },
-    failureForDeletePaymentProof(state, action) {
+    failureForDeletePaymentProof(state) {
       state.loading = false;
     },
-    requestForSinglePaymentProofDetail(state, action) {
+    requestForSinglePaymentProofDetail(state) {
       state.loading = true;
       state.singlePaymentProof = {};
     },
@@ -70,29 +70,29 @@ const adminSlice = createSlice({
       state.loading = false;
       state.singlePaymentProof = action.payload;
     },
-    failureForSinglePaymentProofDetail(state, action) {
+    failureForSinglePaymentProofDetail(state) {
       state.loading = false;
       state.singlePaymentProof = {};
     },
-    requestForUpdatePaymentProof(state, action) {
+    requestForUpdatePaymentProof(state) {
       state.loading = true;
     },
-    successForUpdatePaymentProof(state, action) {
+    successForUpdatePaymentProof(state) {
       state.loading = false;
     },
-    failureForUpdatePaymentProof(state, action) {
+    failureForUpdatePaymentProof(state) {
       state.loading = false;
     },
-    requestForAuctionItemDelete(state, action) {
+    requestForAuctionItemDelete(state) {
       state.loading = true;
     },
-    successForAuctionItemDelete(state, action) {
+    successForAuctionItemDelete(state) {
       state.loading = false;
     },
-    failureForAuctionItemDelete(state, action) {
+    failureForAuctionItemDelete(state) {
       state.loading = false;
     },
-    clearAllErrors(state, action) {
+    clearAllErrors(state) {
       state.loading = false;
       state.singlePaymentProof = {};
     },
@@ -110,7 +110,7 @@ export const getMonthlyRevenue = () => async (dispatch) => {
     );
   } catch (error) {
     dispatch(adminSlice.actions.failedForMonthlyRevenue());
-    console.error(error.response.data.message);
+
     toast.error(error.response.data.message);
   }
 };
@@ -122,7 +122,7 @@ export const getAllUsers = () => async (dispatch) => {
     dispatch(adminSlice.actions.successForAllUsers(response.data));
   } catch (error) {
     dispatch(adminSlice.actions.failureForAllUsers());
-    console.error(error.response.data.message);
+
     toast.error(error.response.data.message);
   }
 };
@@ -136,7 +136,7 @@ export const getAllPaymentProofs = () => async (dispatch) => {
     );
   } catch (error) {
     dispatch(adminSlice.actions.failureForPaymentProofs());
-    console.error(error.response.data.message);
+
     toast.error(error.response.data.message);
   }
 };
@@ -150,7 +150,7 @@ export const deletePaymentProof = (id) => async (dispatch) => {
     toast.success(response.data.message);
   } catch (error) {
     dispatch(adminSlice.actions.failureForDeletePaymentProof());
-    console.error(error.response.data.message);
+
     toast.error(error.response.data.message);
   }
 };
@@ -166,7 +166,7 @@ export const getSinglePaymentProofDetail = (id) => async (dispatch) => {
     );
   } catch (error) {
     dispatch(adminSlice.actions.failureForSinglePaymentProofDetail());
-    console.error(error.response.data.message);
+
     toast.error(error.response.data.message);
   }
 };
@@ -184,7 +184,7 @@ export const updatePaymentProof = (id, status, amount) => async (dispatch) => {
     dispatch(adminSlice.actions.clearAllErrors());
   } catch (error) {
     dispatch(adminSlice.actions.failureForUpdatePaymentProof());
-    console.error(error.response.data.message);
+
     toast.error(error.response.data.message);
   }
 };
@@ -198,7 +198,7 @@ export const deleteAuctionItem = (id) => async (dispatch) => {
     dispatch(getAllItem());
   } catch (error) {
     dispatch(adminSlice.actions.failureForAuctionItemDelete());
-    console.error(error.response.data.message);
+
     toast.error(error.response.data.message);
   }
 };

@@ -21,24 +21,29 @@ router.post(
   isAuthenticated,
   isAuthorized("seller"),
   trackCommissionStatus,
-  addNewAuctionItem
+  addNewAuctionItem,
 );
 
 router.get("/items", getAllItems);
 
-router.get("/item/:id", getMyAuctionItems);
+router.get(
+  "/item/:id",
+  isAuthenticated,
+  isAuthorized("seller"),
+  getMyAuctionItems,
+);
 
 router.delete(
   "/delete-item/:id",
   isAuthenticated,
   isAuthorized("seller"),
-  removeFromAuction
+  removeFromAuction,
 );
 router.put(
   "/republish-item/:id",
   isAuthenticated,
   isAuthorized("seller"),
-  republishItem
+  republishItem,
 );
 // Route for getting auctions won by the user
 router.get("/won", isAuthenticated, getAuctionsWon);

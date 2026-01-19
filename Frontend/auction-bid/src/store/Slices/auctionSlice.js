@@ -1,6 +1,8 @@
+/* eslint-disable no-self-assign */
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 import api from '../../api/axios';
+import { toast } from 'react-hot-toast';
 
 const auctionSlice = createSlice({
   name: 'auction',
@@ -14,26 +16,26 @@ const auctionSlice = createSlice({
     allAuctions: [],
   },
   reducers: {
-    createAuctionRequest(state, action) {
+    createAuctionRequest(state) {
       state.loading = true;
     },
-    createAuctionSuccess(state, action) {
+    createAuctionSuccess(state) {
       state.loading = false;
     },
-    createAuctionFailed(state, action) {
+    createAuctionFailed(state) {
       state.loading = false;
     },
-    getAllItemRequest(state, action) {
+    getAllItemRequest(state) {
       state.loading = true;
     },
     getAllItemSuccess(state, action) {
       state.loading = false;
       state.allAuctions = action.payload || [];
     },
-    getAllItemFailed(state, action) {
+    getAllItemFailed(state) {
       state.loading = false;
     },
-    getAuctionDetailRequest(state, action) {
+    getAuctionDetailRequest(state) {
       state.loading = true;
     },
     getAuctionDetailSuccess(state, action) {
@@ -41,47 +43,47 @@ const auctionSlice = createSlice({
       state.auctionDetail = action.payload.auctionItem;
       state.auctionBidders = action.payload.bidders;
     },
-    getAuctionDetailFailed(state, action) {
+    getAuctionDetailFailed(state) {
       state.loading = false;
       state.auctionDetail = state.auctionDetail;
       state.auctionBidders = state.auctionBidders;
     },
-    getMyAuctionsRequest(state, action) {
+    getMyAuctionsRequest(state) {
       state.loading = true;
     },
     getMyAuctionsSuccess(state, action) {
       state.loading = false;
       state.myAuctions = action.payload;
     },
-    getMyAuctionsFailed(state, action) {
+    getMyAuctionsFailed(state) {
       state.loading = false;
     },
-    republishAuctionRequest(state, action) {
+    republishAuctionRequest(state) {
       state.loading = true;
     },
-    republishAuctionSuccess(state, action) {
+    republishAuctionSuccess(state) {
       state.loading = false;
     },
-    republishAuctionFailed(state, action) {
+    republishAuctionFailed(state) {
       state.loading = false;
     },
-    deleteAuctionRequest(state, action) {
+    deleteAuctionRequest(state) {
       state.loading = true;
     },
-    deleteAuctionSuccess(state, action) {
+    deleteAuctionSuccess(state) {
       state.loading = false;
     },
-    deleteAuctionFailed(state, action) {
+    deleteAuctionFailed(state) {
       state.loading = false;
     },
-    getWonAuctionsRequest(state, action) {
+    getWonAuctionsRequest(state) {
       state.loading = true;
     },
     getWonAuctionsSuccess(state, action) {
       state.loading = false;
       state.myWonAuctions = action.payload;
     },
-    getWonAuctionsFailed(state, action) {
+    getWonAuctionsFailed(state) {
       state.loading = false;
       state.myWonAuctions = [];
     },
@@ -103,14 +105,16 @@ export const getAllItem = () => async (dispatch) => {
 export const getMyAuctionItem = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.getMyAuctionsRequest());
   try {
-    const response = await api.get(`/auctions/item/${id}`);
+    const response = await api.get(`/auctions/item/${id}`, {
+      withCredentials: true,
+    });
     dispatch(auctionSlice.actions.getMyAuctionsSuccess(response.data.items));
   } catch (error) {
     dispatch(auctionSlice.actions.getMyAuctionsFailed());
   }
 };
 
-export const createAuction = (data) => async (dispatch) => {
+export const createAuction = (data, navigate) => async (dispatch) => {
   dispatch(auctionSlice.actions.createAuctionRequest());
   try {
     const response = await api.post('/auctions/create-item', data, {
@@ -120,8 +124,11 @@ export const createAuction = (data) => async (dispatch) => {
     dispatch(
       auctionSlice.actions.createAuctionSuccess(response.data.auctionItem)
     );
+    toast.success('Auction created successfully!');
+    if (navigate) navigate('/my-auctions');
   } catch (error) {
     dispatch(auctionSlice.actions.createAuctionFailed());
+    toast.error(error.response?.data?.message || 'Failed to create auction');
   }
 };
 
@@ -138,7 +145,9 @@ export const getAuctionDetail = (id) => async (dispatch) => {
 export const deleteAuction = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.deleteAuctionRequest());
   try {
-    const response = await api.delete(`/auctions/delete-item/${id}`);
+    const response = await api.delete(`/auctions/delete-item/${id}`, {
+      withCredentials: true,
+    });
     dispatch(
       auctionSlice.actions.deleteAuctionSuccess(response.data.auctionItem)
     );
@@ -150,7 +159,13 @@ export const deleteAuction = (id) => async (dispatch) => {
 export const republishAuction = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.republishAuctionRequest());
   try {
-    const response = await api.put(`/auctions/republish-item/${id}`);
+    const response = await api.put(
+      `/auctions/republish-item/${id}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
     dispatch(
       auctionSlice.actions.republishAuctionSuccess(response.data.auctionItem)
     );
@@ -162,7 +177,9 @@ export const republishAuction = (id) => async (dispatch) => {
 export const getWonAuctions = () => async (dispatch) => {
   dispatch(auctionSlice.actions.getWonAuctionsRequest());
   try {
-    const response = await api.get('/auctions/won');
+    const response = await api.get('/auctions/won', {
+      withCredentials: true,
+    });
     dispatch(
       auctionSlice.actions.getWonAuctionsSuccess(response.data.auctions)
     );

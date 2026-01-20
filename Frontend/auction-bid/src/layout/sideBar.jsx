@@ -91,6 +91,32 @@ const SideBar = ({ isOpen, onClose }) => {
             </>
           )}
 
+          {isAuthenticate && user?.role === 'admin' && (
+            <>
+              <Link
+                to="/admin/dashboard"
+                onClick={onClose}
+                className="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-700 text-gray-700 font-bold transition-all"
+              >
+                Dashboard
+              </Link>
+              <Link
+                to="/admin/payment-proofs"
+                onClick={onClose}
+                className="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-700 text-gray-700 font-bold transition-all"
+              >
+                Payment Proofs
+              </Link>
+              <Link
+                to="/admin/auctions"
+                onClick={onClose}
+                className="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-700 text-gray-700 font-bold transition-all"
+              >
+                Manage Auctions
+              </Link>
+            </>
+          )}
+
           <div className="border-t border-gray-100 my-4 pt-4">
             {isAuthenticate ? (
               <>

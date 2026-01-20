@@ -14,6 +14,10 @@ import LeaderBoard from './pages/LeaderBoard.jsx';
 import UserProfile from './pages/UserProfile.jsx';
 import MyAuction from './pages/MyAuction.jsx';
 import Cart from './pages/Cart.jsx';
+import Dashboard from './pages/Admin/Dashboard.jsx';
+import PaymentProofs from './pages/Admin/PaymentProofs.jsx';
+import PaymentProofDetail from './pages/Admin/PaymentProofDetail.jsx';
+import AdminAuctions from './pages/Admin/AdminAuctions.jsx';
 import { fetchUser } from './store/Slices/userSlice';
 
 import { Toaster } from 'react-hot-toast';
@@ -41,6 +45,13 @@ function App() {
           <Route path="/me" element={<UserProfile />} />
           <Route path="/my-auctions" element={<MyAuction />} />
           <Route path="/my-winnings" element={<Cart />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/payment-proofs" element={<PaymentProofs />} />
+          <Route
+            path="/admin/payment-proofs/:id"
+            element={<PaymentProofDetail />}
+          />
+          <Route path="/admin/auctions" element={<AdminAuctions />} />
         </Route>
       </Routes>
     </>

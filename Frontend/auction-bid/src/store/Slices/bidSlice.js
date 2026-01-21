@@ -23,18 +23,13 @@ export const bidSlice = createSlice({
 export const bid = (id, data) => async (dispatch) => {
   dispatch(bidSlice.actions.bidRequest());
   try {
-    const response = await api.post(
-      `/bids/place_bid/${id}`,
-      data,
-      {
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    const response = await api.post(`/bids/place_bid/${id}`, data, {
+      headers: { 'Content-Type': 'application/json' },
+    });
     dispatch(bidSlice.actions.bidSuccess());
   } catch (error) {
     dispatch(bidSlice.actions.bidFail());
   }
 };
-
 
 export default bidSlice.reducer;

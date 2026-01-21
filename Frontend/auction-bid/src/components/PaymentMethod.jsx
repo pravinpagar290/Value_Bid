@@ -156,7 +156,6 @@ const PaymentMethod = ({ auctionItem, onClose }) => {
           </div>
         </div>
 
-    
         <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
           <button
             onClick={onClose}

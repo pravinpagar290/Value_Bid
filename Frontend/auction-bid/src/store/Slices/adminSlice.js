@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-hot-toast';
-import api from '../../api/axios';
+import api from '../../api/axios.js';
 import { getAllItem } from './auctionSlice.js';
 
 const adminSlice = createSlice({

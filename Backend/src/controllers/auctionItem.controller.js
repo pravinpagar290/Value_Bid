@@ -19,8 +19,8 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorHandler(
         "Invalid file format. Only JPEG, PNG, and JPG are allowed.",
-        400
-      )
+        400,
+      ),
     );
   }
   const {
@@ -50,7 +50,7 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
   }
   if (end <= start || end <= new Date()) {
     return next(
-      new ErrorHandler("Auction end time must be in the future", 400)
+      new ErrorHandler("Auction end time must be in the future", 400),
     );
   }
   // const alreadyOneAuctionActive = await Auction.findOne({
@@ -70,15 +70,18 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
       image.tempFilePath,
       {
         folder: "auction_items",
-      }
+      },
     );
     if (!cloudinaryResponse || cloudinaryResponse.error) {
       console.error(
         "Cloudinary error:",
-        cloudinaryResponse.error || "Unknown cloudinary error."
+        cloudinaryResponse.error || "Unknown cloudinary error.",
       );
       return next(
-        new ErrorHandler("Failed to upload image. Please try again later.", 500)
+        new ErrorHandler(
+          "Failed to upload image. Please try again later.",
+          500,
+        ),
       );
     }
     const auctionItem = await Auction.create({
@@ -103,7 +106,7 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
   } catch (error) {
     console.error("Auction creation error:", error);
     return next(
-      new ErrorHandler(error.message || "Failed to create auction item", 500)
+      new ErrorHandler(error.message || "Failed to create auction item", 500),
     );
   }
 });
@@ -120,7 +123,7 @@ export const getAuctionDetails = asyncHandler(async (req, res, next) => {
   }
   const auctionItem = await Auction.findById(id).populate(
     "createdBy",
-    "username"
+    "username",
   );
   if (!auctionItem) {
     return next(new ErrorHandler("Auction not found.", 404));
@@ -149,6 +152,14 @@ export const removeFromAuction = asyncHandler(async (req, res, next) => {
   if (!auctionItem) {
     return next(new ErrorHandler("Auction not found.", 404));
   }
+  if (auctionItem.createdBy.toString() !== req.user._id.toString()) {
+    return next(
+      new ErrorHandler(
+        "You are not authorized to delete this auction item.",
+        403,
+      ),
+    );
+  }
   await auctionItem.deleteOne();
   res.status(200).json({
     success: true,
@@ -165,14 +176,17 @@ export const republishItem = asyncHandler(async (req, res, next) => {
   if (!auctionItem) {
     return next(new ErrorHandler("Auction not found.", 404));
   }
+  if(auctionItem.createdBy.toString()!== req.user._id.toString()){
+    return next(new ErrorHandler("You are not authorized to republish this auction item.", 403));
+  }
   if (!req.body.startTime || !req.body.endTime) {
     return next(
-      new ErrorHandler("Starttime and Endtime for republish is mandatory.")
+      new ErrorHandler("Starttime and Endtime for republish is mandatory."),
     );
   }
   if (new Date(auctionItem.endTime) > new Date()) {
     return next(
-      new ErrorHandler("Auction is already active, cannot republish", 400)
+      new ErrorHandler("Auction is already active, cannot republish", 400),
     );
   }
   let data = {
@@ -183,16 +197,16 @@ export const republishItem = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorHandler(
         "Auction starting time must be greater than present time",
-        400
-      )
+        400,
+      ),
     );
   }
   if (data.startTime >= data.endTime) {
     return next(
       new ErrorHandler(
         "Auction starting time must be less than ending time.",
-        400
-      )
+        400,
+      ),
     );
   }
 
@@ -229,11 +243,9 @@ export const republishItem = asyncHandler(async (req, res, next) => {
 });
 
 export const getAuctionsWon = asyncHandler(async (req, res, next) => {
-  // Find auctions where the current user is the highest bidder and logic says its won
-  // Typically 'highestBidder' field is populated by cron job on end.
   const auctions = await Auction.find({ highestBidder: req.user._id }).populate(
     "createdBy",
-    "username email paymentMethods"
+    "username email paymentMethods",
   );
   res.status(200).json({
     success: true,

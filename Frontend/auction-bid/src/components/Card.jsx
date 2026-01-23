@@ -136,7 +136,7 @@ export const Card = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-2 gap-3 mt-auto">
+        {!timeLeft.type==='Ended'?(<div className="grid grid-cols-2 gap-3 mt-auto">
           <Link
             to={`/auction/item/${id}`}
             className="flex justify-center items-center bg-black text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
@@ -146,7 +146,7 @@ export const Card = ({
           <button className="flex justify-center items-center bg-white border border-gray-200 text-gray-900 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors">
             Watch
           </button>
-        </div>
+        </div>):(<div><span>Auction Ended</span></div>)}
       </div>
     </div>
   );

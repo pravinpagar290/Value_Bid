@@ -13,6 +13,7 @@ import {
   deletePaymentProof,
   fetchAllUsers,
   monthlyRevenue,
+  getAllSellers,
 } from "../controllers/admin.controller.js";
 
 const router = express.Router();
@@ -21,56 +22,63 @@ router.delete(
   "/auction_item/delete/:id",
   isAuthenticated,
   isAuthorized("admin"),
-  deleteActionItem
+  deleteActionItem,
 );
 
 router.get(
   "/payment_proofs/getall",
   isAuthenticated,
   isAuthorized("admin"),
-  getAllPaymentProofs
+  getAllPaymentProofs,
 );
 
 router.get(
   "/payment_proof/:id",
   isAuthenticated,
   isAuthorized("admin"),
-  getPaymentDetail
+  getPaymentDetail,
 );
 
 router.put(
   "/payment_proof/status/update/:id",
   isAuthenticated,
   isAuthorized("admin"),
-  updatePaymentStatus
+  updatePaymentStatus,
 );
 
 router.delete(
   "/payment_proof/delete/:id",
   isAuthenticated,
   isAuthorized("admin"),
-  deletePaymentProof
+  deletePaymentProof,
 );
 
 router.get(
   "/auction_items/getall",
   isAuthenticated,
   isAuthorized("admin"),
-  getAllAuctionItems
+  getAllAuctionItems,
 );
 
 router.get(
   "/users/getall",
   isAuthenticated,
   isAuthorized("admin"),
-  fetchAllUsers
+  fetchAllUsers,
 );
 
 router.get(
   "/monthly_revenue",
   isAuthenticated,
   isAuthorized("admin"),
-  monthlyRevenue
+  monthlyRevenue,
+);
+
+router.get(
+  "/sellers/getall",
+  isAuthenticated,
+  isAuthorized("admin"),
+  getAllSellers,
 );
 
 export default router;

@@ -148,6 +148,21 @@ const UserProfile = () => {
                           />
                         </div>
                       )}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-500 mb-1">
+                          Unpaid Commission
+                        </label>
+                        <input
+                          type="text"
+                          defaultValue={`₹${user?.unpaidCommission || 0}`}
+                          disabled
+                          className={`block w-full px-4 py-2 border rounded-lg font-bold ${
+                            user?.unpaidCommission > 0
+                              ? 'bg-red-50 border-red-200 text-red-700'
+                              : 'bg-gray-50 border-gray-200 text-gray-700'
+                          }`}
+                        />
+                      </div>
                     </div>
                   </div>
                 )}

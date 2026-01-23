@@ -12,8 +12,21 @@ const adminSlice = createSlice({
     totalBidders: [],
     paymentProofs: [],
     singlePaymentProof: {},
+    sellers: [],
   },
   reducers: {
+    requestForSellers(state) {
+      state.loading = true;
+      state.sellers = [];
+    },
+    successForSellers(state, action) {
+      state.loading = false;
+      state.sellers = action.payload;
+    },
+    failureForSellers(state) {
+      state.loading = false;
+      state.sellers = [];
+    },
     requestForMonthlyRevenue(state) {
       state.loading = true;
       state.monthlyRevenue = [];
@@ -198,6 +211,18 @@ export const deleteAuctionItem = (id) => async (dispatch) => {
     dispatch(getAllItem());
   } catch (error) {
     dispatch(adminSlice.actions.failureForAuctionItemDelete());
+
+    toast.error(error.response.data.message);
+  }
+};
+
+export const getAllSellers = () => async (dispatch) => {
+  dispatch(adminSlice.actions.requestForSellers());
+  try {
+    const response = await api.get('/admin/sellers/getall');
+    dispatch(adminSlice.actions.successForSellers(response.data.sellers));
+  } catch (error) {
+    dispatch(adminSlice.actions.failureForSellers());
 
     toast.error(error.response.data.message);
   }

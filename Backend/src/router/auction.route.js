@@ -12,6 +12,7 @@ import {
   removeFromAuction,
   republishItem,
   getAuctionsWon,
+  getPaymentProofForAuction,
 } from "../controllers/auctionItem.controller.js";
 import { proofOfPayment } from "../controllers/commission.controller.js";
 
@@ -54,6 +55,13 @@ router.post(
   isAuthenticated,
   isAuthorized("bidder"),
   proofOfPayment,
+);
+
+router.get(
+  "/get-payment-proof/:id",
+  isAuthenticated,
+  isAuthorized("seller"),
+  getPaymentProofForAuction,
 );
 
 export default router;

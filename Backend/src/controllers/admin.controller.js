@@ -60,7 +60,7 @@ export const updatePaymentStatus = asyncHandler(async (req, res, next) => {
   const paymentUpdate = await PaymentProof.findByIdAndUpdate(
     id,
     { status, amount },
-    { new: true, runValidators: true, useFindAndModify: false }
+    { new: true, runValidators: true, useFindAndModify: false },
   );
   res.status(200).json({
     success: true,
@@ -166,5 +166,15 @@ export const monthlyRevenue = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     totalMonthlyRevenue,
+  });
+});
+
+export const getAllSellers = asyncHandler(async (req, res, next) => {
+  const sellers = await User.find({ role: "seller" }).select(
+    "username email unpaidCommission",
+  );
+  res.status(200).json({
+    success: true,
+    sellers,
   });
 });

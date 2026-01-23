@@ -18,6 +18,8 @@ import Dashboard from './pages/Admin/Dashboard.jsx';
 import PaymentProofs from './pages/Admin/PaymentProofs.jsx';
 import PaymentProofDetail from './pages/Admin/PaymentProofDetail.jsx';
 import AdminAuctions from './pages/Admin/AdminAuctions.jsx';
+import AdminSellers from './pages/Admin/AdminSellers.jsx';
+import SubmitCommission from './pages/SubmitCommission.jsx';
 import { fetchUser } from './store/Slices/userSlice';
 
 import { Toaster } from 'react-hot-toast';
@@ -52,6 +54,8 @@ function App() {
             element={<PaymentProofDetail />}
           />
           <Route path="/admin/auctions" element={<AdminAuctions />} />
+          <Route path="/admin/sellers" element={<AdminSellers />} />
+          <Route path="/submit-commission" element={<SubmitCommission />} />
         </Route>
       </Routes>
     </>

@@ -14,6 +14,7 @@ const auctionSlice = createSlice({
     myAuctions: [],
     myWonAuctions: [],
     allAuctions: [],
+    paymentProof: null,
   },
   reducers: {
     createAuctionRequest(state) {
@@ -86,6 +87,17 @@ const auctionSlice = createSlice({
     getWonAuctionsFailed(state) {
       state.loading = false;
       state.myWonAuctions = [];
+    },
+    getPaymentProofRequest(state) {
+      state.loading = true;
+    },
+    getPaymentProofSuccess(state, action) {
+      state.loading = false;
+      state.paymentProof = action.payload;
+    },
+    getPaymentProofFailed(state) {
+      state.loading = false;
+      state.paymentProof = null;
     },
   },
 });
@@ -185,6 +197,18 @@ export const getWonAuctions = () => async (dispatch) => {
     );
   } catch (error) {
     dispatch(auctionSlice.actions.getWonAuctionsFailed());
+  }
+};
+
+export const getPaymentProof = (id) => async (dispatch) => {
+  dispatch(auctionSlice.actions.getPaymentProofRequest());
+  try {
+    const response = await api.get(`/auctions/get-payment-proof/${id}`);
+    dispatch(
+      auctionSlice.actions.getPaymentProofSuccess(response.data.paymentProof)
+    );
+  } catch (error) {
+    dispatch(auctionSlice.actions.getPaymentProofFailed());
   }
 };
 

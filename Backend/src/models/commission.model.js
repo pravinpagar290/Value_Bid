@@ -9,7 +9,6 @@ const paymentProofSchema = new mongoose.Schema({
   auctionId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Auction",
-    required: true,
   },
   proof: {
     public_id: {

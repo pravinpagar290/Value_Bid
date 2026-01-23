@@ -10,7 +10,7 @@ const router = express.Router();
 router.post(
   "/proof",
   isAuthenticated,
-  isAuthorized("seller" && "admin"),
+  isAuthorized("seller", "admin"),
   proofOfCommission,
 );
 

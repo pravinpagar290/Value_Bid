@@ -6,6 +6,7 @@ import { Bid } from "../models/bid.model.js";
 import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
 import { calculateCommission } from "./commission.controller.js";
+import { PaymentProof } from "../models/commission.model.js";
 
 export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -257,3 +258,21 @@ export const getAuctionsWon = asyncHandler(async (req, res, next) => {
     auctions,
   });
 });
+
+export const getPaymentProofForAuction = asyncHandler(
+  async (req, res, next) => {
+    const { id } = req.params;
+    const paymentProof = await PaymentProof.findOne({ auctionId: id });
+
+    if (!paymentProof) {
+      return next(
+        new ErrorHandler("Payment proof not found for this auction", 404),
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      paymentProof,
+    });
+  },
+);

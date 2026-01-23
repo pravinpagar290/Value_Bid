@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { getAuctionDetail } from '../store/Slices/auctionSlice';
+import {
+  getAuctionDetail,
+  getPaymentProof,
+} from '../store/Slices/auctionSlice';
 import { Loader } from '../components/Loader';
 
 const ViewAuctionDetails = () => {
@@ -9,7 +12,7 @@ const ViewAuctionDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, isAuthenticate } = useSelector((state) => state.user);
-  const { loading, auctionDetail, auctionBidders } = useSelector(
+  const { loading, auctionDetail, auctionBidders, paymentProof } = useSelector(
     (state) => state.auction
   );
 
@@ -19,8 +22,19 @@ const ViewAuctionDetails = () => {
     }
     if (id) {
       dispatch(getAuctionDetail(id));
+      if (user.role === 'seller' && auctionDetail.createdBy?._id === user._id) {
+        dispatch(getPaymentProof(id));
+      }
     }
-  }, [id, isAuthenticate, user.role, dispatch, navigate]);
+  }, [
+    id,
+    isAuthenticate,
+    user.role,
+    dispatch,
+    navigate,
+    user._id,
+    auctionDetail.createdBy?._id,
+  ]);
 
   if (loading) return <Loader />;
 
@@ -113,6 +127,74 @@ const ViewAuctionDetails = () => {
                 </p>
               </div>
             </div>
+
+            {/* Payment Proof for Seller */}
+            {user.role === 'seller' &&
+              auctionDetail.createdBy?._id === user._id &&
+              paymentProof && (
+                <div className="bg-white rounded-3xl p-10 shadow-xl border border-indigo-100 space-y-8">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-6">
+                    <div>
+                      <h2 className="text-2xl font-black text-gray-900">
+                        Payment Confirmation
+                      </h2>
+                      <p className="text-sm text-gray-400 mt-1">
+                        Proof of payment submitted by the winner
+                      </p>
+                    </div>
+                    <span
+                      className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest ${
+                        paymentProof.status === 'Approved'
+                          ? 'bg-green-100 text-green-600'
+                          : paymentProof.status === 'Rejected'
+                            ? 'bg-red-100 text-red-600'
+                            : 'bg-yellow-100 text-yellow-600'
+                      }`}
+                    >
+                      {paymentProof.status}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div className="space-y-6">
+                      <div className="bg-gray-50 p-6 rounded-2xl">
+                        <p className="text-xs text-gray-400 font-bold uppercase mb-2">
+                          Amount Settled
+                        </p>
+                        <p className="text-3xl font-black text-indigo-600">
+                          ₹{paymentProof.amount}
+                        </p>
+                      </div>
+                      <div className="bg-gray-50 p-6 rounded-2xl">
+                        <p className="text-xs text-gray-400 font-bold uppercase mb-2">
+                          Winner's Comment
+                        </p>
+                        <p className="text-gray-700 font-medium">
+                          {paymentProof.comment || 'No comment provided.'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div
+                      className="cursor-pointer"
+                      onClick={() =>
+                        window.open(paymentProof.proof?.url, '_blank')
+                      }
+                    >
+                      <p className="text-xs text-gray-400 font-bold uppercase mb-4">
+                        Payment Screenshot (Click to enlarge)
+                      </p>
+                      <div className="aspect-[3/4] rounded-2xl overflow-hidden border-2 border-dashed border-gray-200 hover:border-indigo-400 transition-colors bg-gray-50 flex items-center justify-center p-2">
+                        <img
+                          src={paymentProof.proof?.url}
+                          alt="Payment Proof"
+                          className="w-full h-full object-contain rounded-xl"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
           </div>
 
           {/* Bidders Sidebar */}

@@ -114,7 +114,24 @@ const SideBar = ({ isOpen, onClose }) => {
               >
                 Manage Auctions
               </Link>
+              <Link
+                to="/admin/sellers"
+                onClick={onClose}
+                className="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-700 text-gray-700 font-bold transition-all"
+              >
+                Manage Sellers
+              </Link>
             </>
+          )}
+
+          {isAuthenticate && user?.role === 'seller' && (
+            <Link
+              to="/submit-commission"
+              onClick={onClose}
+              className="block px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-700 font-bold transition-all"
+            >
+              Submit Commission
+            </Link>
           )}
 
           <div className="border-t border-gray-100 my-4 pt-4">

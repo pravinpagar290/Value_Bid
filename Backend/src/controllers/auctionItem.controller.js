@@ -53,18 +53,18 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
       new ErrorHandler("Auction end time must be in the future", 400),
     );
   }
-  // const alreadyOneAuctionActive = await Auction.findOne({
-  //   createdBy: req.user._id,
-  //   endTime: { $gt: new Date() },
-  // });
-  // if (alreadyOneAuctionActive) {
-  //   return next(
-  //     new ErrorHandler(
-  //       "You can have only one active auction at a time. Please wait for the current auction to end before creating a new one.",
-  //       400
-  //     )
-  //   );
-  // }
+  const alreadyOneAuctionActive = await Auction.findOne({
+    createdBy: req.user._id,
+    endTime: { $gt: new Date() },
+  });
+  if (alreadyOneAuctionActive) {
+    return next(
+      new ErrorHandler(
+        "You can have only one active auction at a time. Please wait for the current auction to end before creating a new one.",
+        400
+      )
+    );
+  }
   try {
     const cloudinaryResponse = await cloudinary.uploader.upload(
       image.tempFilePath,

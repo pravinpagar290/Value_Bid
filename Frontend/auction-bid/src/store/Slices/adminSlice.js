@@ -102,7 +102,7 @@ const adminSlice = createSlice({
 export const getMonthlyRevenue = () => async (dispatch) => {
   dispatch(adminSlice.actions.requestForMonthlyRevenue());
   try {
-    const response = await api.get('/superadmin/monthlyincome');
+    const response = await api.get('/admin/monthly_revenue');
     dispatch(
       adminSlice.actions.successForMonthlyRevenue(
         response.data.totalMonthlyRevenue
@@ -118,7 +118,7 @@ export const getMonthlyRevenue = () => async (dispatch) => {
 export const getAllUsers = () => async (dispatch) => {
   dispatch(adminSlice.actions.requestForAllUsers());
   try {
-    const response = await api.get('/superadmin/users/getall');
+    const response = await api.get('/admin/users/getall');
     dispatch(adminSlice.actions.successForAllUsers(response.data));
   } catch (error) {
     dispatch(adminSlice.actions.failureForAllUsers());
@@ -130,9 +130,9 @@ export const getAllUsers = () => async (dispatch) => {
 export const getAllPaymentProofs = () => async (dispatch) => {
   dispatch(adminSlice.actions.requestForPaymentProofs());
   try {
-    const response = await api.get('/superadmin/paymentproofs/getall');
+    const response = await api.get('/admin/payment_proofs/getall');
     dispatch(
-      adminSlice.actions.successForPaymentProofs(response.data.paymentProofs)
+      adminSlice.actions.successForPaymentProofs(response.data.paymentProof)
     );
   } catch (error) {
     dispatch(adminSlice.actions.failureForPaymentProofs());
@@ -144,7 +144,7 @@ export const getAllPaymentProofs = () => async (dispatch) => {
 export const deletePaymentProof = (id) => async (dispatch) => {
   dispatch(adminSlice.actions.requestForDeletePaymentProof());
   try {
-    const response = await api.delete(`/superadmin/paymentproof/delete/${id}`);
+    const response = await api.delete(`/admin/payment_proof/delete/${id}`);
     dispatch(adminSlice.actions.successForDeletePaymentProof());
     dispatch(getAllPaymentProofs());
     toast.success(response.data.message);
@@ -158,10 +158,10 @@ export const deletePaymentProof = (id) => async (dispatch) => {
 export const getSinglePaymentProofDetail = (id) => async (dispatch) => {
   dispatch(adminSlice.actions.requestForSinglePaymentProofDetail());
   try {
-    const response = await api.get(`/superadmin/paymentproof/${id}`);
+    const response = await api.get(`/admin/payment_proof/${id}`);
     dispatch(
       adminSlice.actions.successForSinglePaymentProofDetail(
-        response.data.paymentProofDetail
+        response.data.paymentDetails
       )
     );
   } catch (error) {
@@ -174,10 +174,10 @@ export const getSinglePaymentProofDetail = (id) => async (dispatch) => {
 export const updatePaymentProof = (id, status, amount) => async (dispatch) => {
   dispatch(adminSlice.actions.requestForUpdatePaymentProof());
   try {
-    const response = await api.put(
-      `/superadmin/paymentproof/status/update/${id}`,
-      { status, amount }
-    );
+    const response = await api.put(`/admin/payment_proof/status/update/${id}`, {
+      status,
+      amount,
+    });
     dispatch(adminSlice.actions.successForUpdatePaymentProof());
     toast.success(response.data.message);
     dispatch(getAllPaymentProofs());
@@ -192,7 +192,7 @@ export const updatePaymentProof = (id, status, amount) => async (dispatch) => {
 export const deleteAuctionItem = (id) => async (dispatch) => {
   dispatch(adminSlice.actions.requestForAuctionItemDelete());
   try {
-    const response = await api.delete(`/superadmin/auctionitem/delete/${id}`);
+    const response = await api.delete(`/admin/auction_item/delete/${id}`);
     dispatch(adminSlice.actions.successForAuctionItemDelete());
     toast.success(response.data.message);
     dispatch(getAllItem());

@@ -1,12 +1,15 @@
 import logo from '../assets/logo-1.png';
 import { CiMenuBurger, CiShoppingCart } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LogOutBtn } from '../components/LogOutBtn';
 import { LogInBtn } from '../components/LogInBtn';
+import { toggleTheme } from '../store/Slices/themeSlice';
 
 const Header = ({ onOpenSidebar }) => {
   const { isAuthenticate } = useSelector((state) => state.user);
+  const theme = useSelector((state) => state.theme.mode);
+  const dispatch = useDispatch();
 
   return (
     <div className="flex items-center justify-between p-4 bg-white shadow-md">
@@ -30,6 +33,9 @@ const Header = ({ onOpenSidebar }) => {
           <CiShoppingCart className="text-xl" />
         </Link>
         {isAuthenticate ? <LogOutBtn /> : <LogInBtn />}
+        <button onClick={() => dispatch(toggleTheme())}>
+          {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+        </button>
       </div>
     </div>
   );

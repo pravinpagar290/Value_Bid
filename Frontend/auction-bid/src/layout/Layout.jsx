@@ -3,9 +3,6 @@ import Header from './Header';
 import Footer from './Footer';
 import SideBar from './SideBar';
 import { useState } from 'react';
-
-import React from 'react';
-
 const Layout = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 

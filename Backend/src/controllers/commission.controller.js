@@ -47,8 +47,8 @@ export const proofOfCommission = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorHandler(
         "Invalid file format. Only JPEG, PNG, and JPG are allowed.",
-        400
-      )
+        400,
+      ),
     );
   }
 
@@ -56,12 +56,12 @@ export const proofOfCommission = asyncHandler(async (req, res, next) => {
     proof.tempFilePath,
     {
       folder: "commission_proofs",
-    }
+    },
   );
   if (!cloudinaryResponse || cloudinaryResponse.error) {
     console.error(
       "Cloudinary error:",
-      cloudinaryResponse.error || "Unknown cloudinary error."
+      cloudinaryResponse.error || "Unknown cloudinary error.",
     );
     return next(new ErrorHandler("Failed to upload payment proof.", 500));
   }
@@ -79,5 +79,59 @@ export const proofOfCommission = asyncHandler(async (req, res, next) => {
     message:
       "Your proof has been submitted successfully. We will review it and respond to you within 24 hours.",
     commissionProof,
+  });
+});
+
+export const proofOfPayment = asyncHandler(async (req, res, next) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return next(new ErrorHandler("Payment proof screenshot is required", 400));
+  }
+  const { proof } = req.files;
+  const { amount, comment, auctionId } = req.body;
+
+  if (!amount || !comment || !auctionId) {
+    return next(new ErrorHandler("Please provide all required fields", 400));
+  }
+
+  const auction = await Auction.findById(auctionId);
+  if (!auction) {
+    return next(new ErrorHandler("Auction not found", 404));
+  }
+
+  const allowFormats = ["image/jpeg", "image/png", "image/jpg"];
+  if (!allowFormats.includes(proof.mimetype)) {
+    return next(
+      new ErrorHandler(
+        "Invalid file format. Only JPEG, PNG, and JPG are allowed.",
+        400,
+      ),
+    );
+  }
+
+  const cloudinaryResponse = await cloudinary.uploader.upload(
+    proof.tempFilePath,
+    {
+      folder: "payment_proofs",
+    },
+  );
+  if (!cloudinaryResponse || cloudinaryResponse.error) {
+    return next(new ErrorHandler("Failed to upload payment proof.", 500));
+  }
+
+  const paymentProof = await PaymentProof.create({
+    userId: req.user._id,
+    auctionId,
+    proof: {
+      public_id: cloudinaryResponse.public_id,
+      url: cloudinaryResponse.secure_url,
+    },
+    amount,
+    comment,
+  });
+
+  res.status(201).json({
+    success: true,
+    message: "Payment proof submitted successfully. The seller will verify it.",
+    paymentProof,
   });
 });

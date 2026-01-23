@@ -61,8 +61,8 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorHandler(
         "You can have only one active auction at a time. Please wait for the current auction to end before creating a new one.",
-        400
-      )
+        400,
+      ),
     );
   }
   try {
@@ -176,8 +176,13 @@ export const republishItem = asyncHandler(async (req, res, next) => {
   if (!auctionItem) {
     return next(new ErrorHandler("Auction not found.", 404));
   }
-  if(auctionItem.createdBy.toString()!== req.user._id.toString()){
-    return next(new ErrorHandler("You are not authorized to republish this auction item.", 403));
+  if (auctionItem.createdBy.toString() !== req.user._id.toString()) {
+    return next(
+      new ErrorHandler(
+        "You are not authorized to republish this auction item.",
+        403,
+      ),
+    );
   }
   if (!req.body.startTime || !req.body.endTime) {
     return next(

@@ -13,6 +13,7 @@ import {
   republishItem,
   getAuctionsWon,
 } from "../controllers/auctionItem.controller.js";
+import { proofOfPayment } from "../controllers/commission.controller.js";
 
 const router = express.Router();
 
@@ -48,5 +49,11 @@ router.put(
 // Route for getting auctions won by the user
 router.get("/won", isAuthenticated, getAuctionsWon);
 router.get("/get-detail/:id", isAuthenticated, getAuctionDetails);
+router.post(
+  "/proof/pay",
+  isAuthenticated,
+  isAuthorized("bidder"),
+  proofOfPayment,
+);
 
 export default router;

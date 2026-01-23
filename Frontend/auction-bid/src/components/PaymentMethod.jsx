@@ -6,6 +6,7 @@ import {
   FaCloudUploadAlt,
 } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
+import api from '../api/axios';
 
 const PaymentMethod = ({ auctionItem, onClose }) => {
   const seller = auctionItem.createdBy;
@@ -20,14 +21,34 @@ const PaymentMethod = ({ auctionItem, onClose }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!image) {
       toast.error('Please upload a payment screenshot');
       return;
     }
-    // TODO: Connect to backend API to submit payment proof for this auction
-    toast.success('Payment proof submitted successfully! (Demo)');
-    onClose();
+
+    const formData = new FormData();
+    formData.append('proof', image);
+    formData.append('amount', auctionItem.currentBid);
+    formData.append(
+      'comment',
+      `Payment for auction item: ${auctionItem.title}`
+    );
+    formData.append('auctionId', auctionItem._id);
+
+    try {
+      const { data } = await api.post('/auctions/proof/pay', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      toast.success(data.message);
+      onClose();
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || 'Failed to submit payment proof'
+      );
+    }
   };
 
   return (

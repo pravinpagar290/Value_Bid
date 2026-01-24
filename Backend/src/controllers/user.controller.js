@@ -21,19 +21,15 @@ export const registerUser = asyncHandler(async (req, res, next) => {
   }
 
   if (role === "seller") {
-    if (!bankAccountNumber || !bankName || !accountHolderName) {
-      {
-        return next(
-          new ErrorHandler(
-            "Please provide all bank transfer details for seller role",
-            400
-          )
-        );
-      }
-    }
-    if (!paypalEmail) {
+    if (
+      !paypalEmail &&
+      (!bankAccountNumber || !bankName || !accountHolderName)
+    ) {
       return next(
-        new ErrorHandler("Please provide paypal email for seller role", 400)
+        new ErrorHandler(
+          "Please provide either full bank details or a PayPal email.",
+          400,
+        ),
       );
     }
   }
@@ -41,7 +37,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
   const isRegistered = await User.findOne({ email });
   if (isRegistered) {
     return next(
-      new ErrorHandler("User already registered with this email", 400)
+      new ErrorHandler("User already registered with this email", 400),
     );
   }
   const files = req.files || {};
@@ -52,15 +48,15 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorHandler(
         "Please upload a file (key 'avatar' or 'profileImage' or 'file')",
-        400
-      )
+        400,
+      ),
     );
   }
 
   const allowedFormats = ["image/jpeg", "image/png", "image/jpg"];
   if (!allowedFormats.includes(profileImage.mimetype)) {
     return next(
-      new ErrorHandler("Only jpg, jpeg, and png formats are allowed", 400)
+      new ErrorHandler("Only jpg, jpeg, and png formats are allowed", 400),
     );
   }
 
@@ -68,15 +64,15 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     profileImage.tempFilePath,
     {
       folder: "MERN_AUCTION_PLATFORM_USERS",
-    }
+    },
   );
   if (!cloudinaryResponse || cloudinaryResponse.error) {
     console.error(
       "Cloudinary error :",
-      cloudinaryResponse?.error || "Unknown Cloudinary error."
+      cloudinaryResponse?.error || "Unknown Cloudinary error.",
     );
     return next(
-      new ErrorHandler("Failed to upload image. Please try again later.", 500)
+      new ErrorHandler("Failed to upload image. Please try again later.", 500),
     );
   }
   const user = await User.create({

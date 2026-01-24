@@ -91,18 +91,6 @@ const SignUp = () => {
       return false;
     }
 
-    if (role === 'seller' && paymentMethods === 'banktransfer') {
-      if (!bankName || !bankACCNumber || !holder) {
-        toast.error('Please fill all bank details');
-        return false;
-      }
-    }
-
-    if (role === 'seller' && paymentMethods === 'paypal' && !paypalEmail) {
-      toast.error('PayPal email is required');
-      return false;
-    }
-
     return true;
   };
 

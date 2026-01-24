@@ -136,17 +136,28 @@ export const Card = ({
         </div>
 
         {/* Action Buttons */}
-        {!timeLeft.type==='Ended'?(<div className="grid grid-cols-2 gap-3 mt-auto">
-          <Link
-            to={`/auction/item/${id}`}
-            className="flex justify-center items-center bg-black text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
-          >
-            Place Bid
-          </Link>
-          <button className="flex justify-center items-center bg-white border border-gray-200 text-gray-900 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors">
-            Watch
-          </button>
-        </div>):(<div><span>Auction Ended</span></div>)}
+        {timeLeft.type !== 'Ended' ? (
+          <div className="grid grid-cols-2 gap-3 mt-auto">
+            <Link
+              to={`/auction/item/${id}`}
+              className="flex justify-center items-center bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200"
+            >
+              {timeLeft.type === 'Starts In:' ? 'View Details' : 'Place Bid'}
+            </Link>
+            <button className="flex justify-center items-center bg-white border border-gray-200 text-gray-900 py-3 rounded-xl font-bold hover:bg-gray-50 transition-colors">
+              Watch
+            </button>
+          </div>
+        ) : (
+          <div className="mt-auto">
+            <Link
+              to={`/auction/item/${id}`}
+              className="flex justify-center items-center bg-gray-200 text-gray-500 py-3 rounded-xl font-bold cursor-not-allowed"
+            >
+              Auction Ended
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

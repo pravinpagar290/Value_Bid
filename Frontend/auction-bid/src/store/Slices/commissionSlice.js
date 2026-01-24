@@ -29,9 +29,8 @@ export const postCommissionProof = (data) => async (dispatch) => {
     });
     dispatch(commissionSlice.actions.postCommissionProofSuccess());
     toast.success(response.data.message);
-  } catch (error) {
+  } catch {
     dispatch(commissionSlice.actions.postCommissionProofFailed());
-    toast.error(error.response.data.message);
   }
 };
 

@@ -121,10 +121,8 @@ export const getMonthlyRevenue = () => async (dispatch) => {
         response.data.totalMonthlyRevenue
       )
     );
-  } catch (error) {
+  } catch {
     dispatch(adminSlice.actions.failedForMonthlyRevenue());
-
-    toast.error(error.response.data.message);
   }
 };
 
@@ -133,10 +131,8 @@ export const getAllUsers = () => async (dispatch) => {
   try {
     const response = await api.get('/admin/users/getall');
     dispatch(adminSlice.actions.successForAllUsers(response.data));
-  } catch (error) {
+  } catch {
     dispatch(adminSlice.actions.failureForAllUsers());
-
-    toast.error(error.response.data.message);
   }
 };
 
@@ -147,10 +143,8 @@ export const getAllPaymentProofs = () => async (dispatch) => {
     dispatch(
       adminSlice.actions.successForPaymentProofs(response.data.paymentProof)
     );
-  } catch (error) {
+  } catch {
     dispatch(adminSlice.actions.failureForPaymentProofs());
-
-    toast.error(error.response.data.message);
   }
 };
 
@@ -161,10 +155,8 @@ export const deletePaymentProof = (id) => async (dispatch) => {
     dispatch(adminSlice.actions.successForDeletePaymentProof());
     dispatch(getAllPaymentProofs());
     toast.success(response.data.message);
-  } catch (error) {
+  } catch {
     dispatch(adminSlice.actions.failureForDeletePaymentProof());
-
-    toast.error(error.response.data.message);
   }
 };
 
@@ -177,10 +169,8 @@ export const getSinglePaymentProofDetail = (id) => async (dispatch) => {
         response.data.paymentDetails
       )
     );
-  } catch (error) {
+  } catch {
     dispatch(adminSlice.actions.failureForSinglePaymentProofDetail());
-
-    toast.error(error.response.data.message);
   }
 };
 
@@ -195,10 +185,8 @@ export const updatePaymentProof = (id, status, amount) => async (dispatch) => {
     toast.success(response.data.message);
     dispatch(getAllPaymentProofs());
     dispatch(adminSlice.actions.clearAllErrors());
-  } catch (error) {
+  } catch {
     dispatch(adminSlice.actions.failureForUpdatePaymentProof());
-
-    toast.error(error.response.data.message);
   }
 };
 
@@ -209,10 +197,8 @@ export const deleteAuctionItem = (id) => async (dispatch) => {
     dispatch(adminSlice.actions.successForAuctionItemDelete());
     toast.success(response.data.message);
     dispatch(getAllItem());
-  } catch (error) {
+  } catch {
     dispatch(adminSlice.actions.failureForAuctionItemDelete());
-
-    toast.error(error.response.data.message);
   }
 };
 
@@ -221,10 +207,8 @@ export const getAllSellers = () => async (dispatch) => {
   try {
     const response = await api.get('/admin/sellers/getall');
     dispatch(adminSlice.actions.successForSellers(response.data.sellers));
-  } catch (error) {
+  } catch {
     dispatch(adminSlice.actions.failureForSellers());
-
-    toast.error(error.response.data.message);
   }
 };
 

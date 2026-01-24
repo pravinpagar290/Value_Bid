@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 import api from '../../api/axios.js';
+import { toast } from 'react-hot-toast';
 
 export const bidSlice = createSlice({
   name: 'bid',
@@ -8,13 +8,13 @@ export const bidSlice = createSlice({
     loading: false,
   },
   reducers: {
-    bidRequest(state, action) {
+    bidRequest(state) {
       state.loading = true;
     },
-    bidSuccess(state, action) {
+    bidSuccess(state) {
       state.loading = false;
     },
-    bidFail(state, action) {
+    bidFail(state) {
       state.loading = false;
     },
   },
@@ -27,7 +27,8 @@ export const bid = (id, data) => async (dispatch) => {
       headers: { 'Content-Type': 'application/json' },
     });
     dispatch(bidSlice.actions.bidSuccess());
-  } catch (error) {
+    toast.success(response.data.message || 'Bid placed successfully!');
+  } catch {
     dispatch(bidSlice.actions.bidFail());
   }
 };

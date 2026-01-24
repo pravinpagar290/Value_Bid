@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 import api from '../../api/axios.js';
+import { toast } from 'react-hot-toast';
 
 const userSlice = createSlice({
   name: 'user',
@@ -78,7 +79,8 @@ export const register = (data) => async (dispatch) => {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     dispatch(userSlice.actions.registerSuccess(response.data));
-  } catch (error) {
+    toast.success(response.data.message || 'User registered successfully');
+  } catch {
     dispatch(userSlice.actions.registerFailed());
   }
 };
@@ -90,7 +92,8 @@ export const login = (data) => async (dispatch) => {
       headers: { 'Content-Type': 'application/json' },
     });
     dispatch(userSlice.actions.loginSuccess(response.data));
-  } catch (error) {
+    toast.success(response.data.message || 'Logged in successfully');
+  } catch {
     dispatch(userSlice.actions.loginFailed());
   }
 };
@@ -99,8 +102,7 @@ export const logout = () => async (dispatch) => {
   try {
     await api.get('/user/logout');
     dispatch(userSlice.actions.logoutSuccess());
-  } catch (error) {
-    // Even if backend fails, we logout on frontend
+  } catch {
     dispatch(userSlice.actions.logoutSuccess());
   }
 };
@@ -114,7 +116,7 @@ export const fetchUser = (data) => async (dispatch) => {
       },
     });
     dispatch(userSlice.actions.fetchUserSuccess(response.data));
-  } catch (error) {
+  } catch {
     dispatch(userSlice.actions.fetchUserFailed());
   }
 };
@@ -128,7 +130,7 @@ export const fetchLeaderBoard = (data) => async (dispatch) => {
       },
     });
     dispatch(userSlice.actions.fetchLeaderBoardSuccess(response.data));
-  } catch (error) {
+  } catch {
     dispatch(userSlice.actions.fetchLeaderBoardFailed());
   }
 };

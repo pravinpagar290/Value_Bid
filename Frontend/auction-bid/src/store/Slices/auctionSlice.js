@@ -1,5 +1,4 @@
 /* eslint-disable no-self-assign */
-/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 import api from '../../api/axios';
 import { toast } from 'react-hot-toast';
@@ -109,7 +108,7 @@ export const getAllItem = () => async (dispatch) => {
       withCredentials: true,
     });
     dispatch(auctionSlice.actions.getAllItemSuccess(response.data.items));
-  } catch (error) {
+  } catch {
     dispatch(auctionSlice.actions.getAllItemFailed());
   }
 };
@@ -121,7 +120,7 @@ export const getMyAuctionItem = (id) => async (dispatch) => {
       withCredentials: true,
     });
     dispatch(auctionSlice.actions.getMyAuctionsSuccess(response.data.items));
-  } catch (error) {
+  } catch {
     dispatch(auctionSlice.actions.getMyAuctionsFailed());
   }
 };
@@ -138,9 +137,8 @@ export const createAuction = (data, navigate) => async (dispatch) => {
     );
     toast.success('Auction created successfully!');
     if (navigate) navigate('/my-auctions');
-  } catch (error) {
+  } catch {
     dispatch(auctionSlice.actions.createAuctionFailed());
-    toast.error(error.response?.data?.message || 'Failed to create auction');
   }
 };
 
@@ -149,7 +147,7 @@ export const getAuctionDetail = (id) => async (dispatch) => {
   try {
     const response = await api.get(`/auctions/get-detail/${id}`);
     dispatch(auctionSlice.actions.getAuctionDetailSuccess(response.data));
-  } catch (error) {
+  } catch {
     dispatch(auctionSlice.actions.getAuctionDetailFailed());
   }
 };
@@ -163,7 +161,7 @@ export const deleteAuction = (id) => async (dispatch) => {
     dispatch(
       auctionSlice.actions.deleteAuctionSuccess(response.data.auctionItem)
     );
-  } catch (error) {
+  } catch {
     dispatch(auctionSlice.actions.deleteAuctionFailed());
   }
 };
@@ -181,7 +179,7 @@ export const republishAuction = (id) => async (dispatch) => {
     dispatch(
       auctionSlice.actions.republishAuctionSuccess(response.data.auctionItem)
     );
-  } catch (error) {
+  } catch {
     dispatch(auctionSlice.actions.republishAuctionFailed());
   }
 };
@@ -195,7 +193,7 @@ export const getWonAuctions = () => async (dispatch) => {
     dispatch(
       auctionSlice.actions.getWonAuctionsSuccess(response.data.auctions)
     );
-  } catch (error) {
+  } catch {
     dispatch(auctionSlice.actions.getWonAuctionsFailed());
   }
 };
@@ -207,7 +205,7 @@ export const getPaymentProof = (id) => async (dispatch) => {
     dispatch(
       auctionSlice.actions.getPaymentProofSuccess(response.data.paymentProof)
     );
-  } catch (error) {
+  } catch {
     dispatch(auctionSlice.actions.getPaymentProofFailed());
   }
 };

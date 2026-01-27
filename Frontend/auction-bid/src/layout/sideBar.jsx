@@ -55,6 +55,13 @@ const SideBar = ({ isOpen, onClose }) => {
             All Auctions
           </Link>
           <Link
+            to="/filter-auctions"
+            onClick={onClose}
+            className="block px-4 py-3 rounded-xl hover:bg-indigo-50 hover:text-indigo-700 text-gray-700 font-bold transition-all"
+          >
+            🔍 Filter Auctions
+          </Link>
+          <Link
             to="/leader-board"
             onClick={onClose}
             className="block px-4 py-3 rounded-xl hover:bg-gray-50 text-gray-700 font-bold transition-all"

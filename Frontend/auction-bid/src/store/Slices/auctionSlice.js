@@ -101,17 +101,29 @@ const auctionSlice = createSlice({
   },
 });
 
-export const getAllItem = () => async (dispatch) => {
-  dispatch(auctionSlice.actions.getAllItemRequest());
-  try {
-    const response = await api.get('/auctions/items', {
-      withCredentials: true,
-    });
-    dispatch(auctionSlice.actions.getAllItemSuccess(response.data.items));
-  } catch {
-    dispatch(auctionSlice.actions.getAllItemFailed());
-  }
-};
+export const getAllItem =
+  (filters = {}) =>
+  async (dispatch) => {
+    dispatch(auctionSlice.actions.getAllItemRequest());
+    try {
+      const queryParams = new URLSearchParams();
+      if (filters.search) queryParams.append('search', filters.search);
+      if (filters.category) queryParams.append('category', filters.category);
+      if (filters.condition) queryParams.append('condition', filters.condition);
+      if (filters.status) queryParams.append('status', filters.status);
+      if (filters.sortBy) queryParams.append('sortBy', filters.sortBy);
+
+      const queryString = queryParams.toString();
+      const url = `/auctions/items${queryString ? `?${queryString}` : ''}`;
+
+      const response = await api.get(url, {
+        withCredentials: true,
+      });
+      dispatch(auctionSlice.actions.getAllItemSuccess(response.data.items));
+    } catch {
+      dispatch(auctionSlice.actions.getAllItemFailed());
+    }
+  };
 
 export const getMyAuctionItem = (id) => async (dispatch) => {
   dispatch(auctionSlice.actions.getMyAuctionsRequest());

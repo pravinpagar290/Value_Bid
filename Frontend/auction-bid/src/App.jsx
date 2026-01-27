@@ -7,6 +7,7 @@ import Login from './pages/Login.jsx';
 import Layout from './layout/Layout.jsx';
 import Home from './pages/Home.jsx';
 import Auctions from './pages/Auction.jsx';
+import FilterAuctions from './pages/FilterAuctions.jsx';
 import { CreateAuction } from './pages/CreateAuction.jsx';
 import AuctionItem from './pages/AuctionItem.jsx';
 import ViewAuctionDetails from './pages/ViewAuctionDetails.jsx';
@@ -40,6 +41,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/auctions" element={<Auctions />} />
+          <Route path="/filter-auctions" element={<FilterAuctions />} />
           <Route path="/create-auction" element={<CreateAuction />} />
           <Route path="/auction/item/:id" element={<AuctionItem />} />
           <Route path="/auction/details/:id" element={<ViewAuctionDetails />} />

@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Loader } from '../components/Loader';
 import { Card } from '../components/Card';
 import { getAllItem } from '../store/Slices/auctionSlice';
 import SearchBar from '../components/SearchBar';
 import FilterBar from '../components/FilterBar';
+import { CiFilter } from 'react-icons/ci';
 
-const Auctions = () => {
+const FilterAuctions = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { allAuctions, loading } = useSelector((state) => state.auction);
 
   // Filter states
@@ -89,11 +92,25 @@ const Auctions = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Header Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">All Auctions</h1>
+        <div className="flex items-center gap-3 mb-6">
+          <CiFilter className="text-4xl text-indigo-600" />
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Filter Auctions
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Search and filter auctions to find exactly what you're looking for
+            </p>
+          </div>
+        </div>
 
         {/* Search Bar */}
         <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Search Auctions
+          </label>
           <SearchBar
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -114,19 +131,37 @@ const Auctions = () => {
           onSortChange={setSortBy}
         />
 
-        {/* Results Info */}
-        <div className="flex justify-between items-center mb-4">
-          <p className="text-gray-600">
-            {loading
-              ? 'Loading...'
-              : `${allAuctions?.length || 0} auctions found`}
-          </p>
-          <button
-            onClick={handleResetFilters}
-            className="text-indigo-600 hover:text-indigo-800 font-medium text-sm"
-          >
-            Reset Filters
-          </button>
+        {/* Results Info & Actions */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <div>
+            <p className="text-gray-600 text-lg font-medium">
+              {loading
+                ? 'Loading...'
+                : `${allAuctions?.length || 0} auctions found`}
+            </p>
+            {(searchTerm ||
+              selectedCategory !== 'all' ||
+              selectedCondition !== 'all' ||
+              selectedStatus !== 'all') && (
+              <p className="text-sm text-gray-500 mt-1">
+                Active filters applied
+              </p>
+            )}
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={handleResetFilters}
+              className="px-4 py-2 text-indigo-600 hover:text-indigo-800 font-medium text-sm border border-indigo-200 rounded-lg hover:bg-indigo-50 transition-all"
+            >
+              Reset Filters
+            </button>
+            <button
+              onClick={() => navigate('/auctions')}
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium text-sm rounded-lg transition-all"
+            >
+              View All Auctions
+            </button>
+          </div>
         </div>
       </div>
 
@@ -151,20 +186,32 @@ const Auctions = () => {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">
-            No auctions found matching your criteria.
+        <div className="text-center py-16 bg-gray-50 rounded-xl">
+          <CiFilter className="text-6xl text-gray-300 mx-auto mb-4" />
+          <p className="text-gray-500 text-lg font-medium mb-2">
+            No auctions found matching your criteria
           </p>
-          <button
-            onClick={handleResetFilters}
-            className="mt-4 text-indigo-600 hover:text-indigo-800 font-medium"
-          >
-            Clear all filters
-          </button>
+          <p className="text-gray-400 text-sm mb-6">
+            Try adjusting your filters or search terms
+          </p>
+          <div className="flex gap-3 justify-center">
+            <button
+              onClick={handleResetFilters}
+              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all"
+            >
+              Clear All Filters
+            </button>
+            <button
+              onClick={() => navigate('/auctions')}
+              className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition-all"
+            >
+              Browse All Auctions
+            </button>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-export default Auctions;
+export default FilterAuctions;

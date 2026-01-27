@@ -113,7 +113,69 @@ export const addNewAuctionItem = asyncHandler(async (req, res, next) => {
 });
 
 export const getAllItems = asyncHandler(async (req, res, next) => {
-  let items = await Auction.find().populate("createdBy", "username");
+  const { search, category, condition, status, sortBy } = req.query;
+
+  // Build query object
+  let query = {};
+
+  // Search by title or description
+  if (search) {
+    query.$or = [
+      { title: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  // Filter by category
+  if (category && category !== "all") {
+    query.category = category;
+  }
+
+  // Filter by condition
+  if (condition && condition !== "all") {
+    query.condition = condition;
+  }
+
+  // Filter by status (active, upcoming, ended)
+  const now = new Date();
+  if (status && status !== "all") {
+    if (status === "active") {
+      query.startTime = { $lte: now };
+      query.endTime = { $gt: now };
+    } else if (status === "upcoming") {
+      query.startTime = { $gt: now };
+    } else if (status === "ended") {
+      query.endTime = { $lte: now };
+    }
+  }
+
+  // Build sort object
+  let sortOptions = {};
+  switch (sortBy) {
+    case "newest":
+      sortOptions = { createdAt: -1 };
+      break;
+    case "oldest":
+      sortOptions = { createdAt: 1 };
+      break;
+    case "price-low":
+      sortOptions = { currentBid: 1, startingBid: 1 };
+      break;
+    case "price-high":
+      sortOptions = { currentBid: -1, startingBid: -1 };
+      break;
+    case "ending-soon":
+      sortOptions = { endTime: 1 };
+      break;
+    default:
+      sortOptions = { createdAt: -1 };
+  }
+
+  // Execute query with filters and sorting
+  let items = await Auction.find(query)
+    .populate("createdBy", "username")
+    .sort(sortOptions);
+
   res.status(200).json({ success: true, items });
 });
 

@@ -4,8 +4,11 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import {
   getAuctionDetail,
   getPaymentProof,
+  updateAuctionBid,
 } from '../store/Slices/auctionSlice';
 import { Loader } from '../components/Loader';
+import { io } from 'socket.io-client';
+import { toast } from 'react-hot-toast';
 
 const ViewAuctionDetails = () => {
   const { id } = useParams();
@@ -35,6 +38,27 @@ const ViewAuctionDetails = () => {
     user._id,
     auctionDetail.createdBy?._id,
   ]);
+
+  useEffect(() => {
+    if (id) {
+      const socket = io('http://localhost:5000', {
+        withCredentials: true,
+        transports: ['websocket', 'polling'],
+      });
+
+      socket.emit('joinAuction', id);
+
+      socket.on('bidUpdate', (data) => {
+        dispatch(updateAuctionBid(data));
+        toast.success('New bid received!');
+      });
+
+      return () => {
+        socket.emit('leaveAuction', id);
+        socket.disconnect();
+      };
+    }
+  }, [id, dispatch]);
 
   if (loading) return <Loader />;
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { getAuctionDetail } from '../store/Slices/auctionSlice';
+import { getAuctionDetail, updateAuctionBid } from '../store/Slices/auctionSlice';
 import { bid } from '../store/Slices/bidSlice';
 import { Loader } from '../components/Loader';
 import { toast } from 'react-hot-toast';
+import { io } from 'socket.io-client';
 
 const AuctionItem = () => {
   const { id } = useParams();
@@ -16,6 +17,25 @@ const AuctionItem = () => {
   );
   const { user, isAuthenticate } = useSelector((state) => state.user);
   const [bidAmount, setBidAmount] = useState('');
+
+  useEffect(() => {
+    const socket = io('http://localhost:5000', {
+      withCredentials: true,
+      transports: ['websocket', 'polling'],
+    });
+
+    socket.emit('joinAuction', id);
+
+    socket.on('bidUpdate', (data) => {
+      dispatch(updateAuctionBid(data));
+      toast.success('New bid placed!');
+    });
+
+    return () => {
+      socket.emit('leaveAuction', id);
+      socket.disconnect();
+    };
+  }, [id, dispatch]);
 
   useEffect(() => {
     dispatch(getAuctionDetail(id));

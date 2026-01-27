@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { getAllItem } from '../store/Slices/auctionSlice';
 import { Loader } from '../components/Loader';
 import { Card } from '../components/Card';
-import Logo2 from '../assets/Logo-2.png';
+import Logo2 from '../assets/logo-2.png';
 
 const Home = () => {
   const dispatch = useDispatch();

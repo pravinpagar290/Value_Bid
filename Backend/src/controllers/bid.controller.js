@@ -66,6 +66,14 @@ export const placeBid = asyncHandler(async (req, res, next) => {
     }
     await auctionItem.save();
 
+    const bidders = auctionItem.bids.sort((a, b) => b.amount - a.amount);
+    const io = req.app.get("io");
+    io.to(id).emit("bidUpdate", {
+      currentBid: auctionItem.currentBid,
+      bidders,
+      auctionId: id,
+    });
+
     res.status(200).json({
       success: true,
       message: "Bid placed successfully",

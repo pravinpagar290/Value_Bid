@@ -98,8 +98,16 @@ const auctionSlice = createSlice({
       state.loading = false;
       state.paymentProof = null;
     },
+    updateAuctionBid(state, action) {
+      if (state.auctionDetail) {
+        state.auctionDetail.currentBid = action.payload.currentBid;
+      }
+      state.auctionBidders = action.payload.bidders;
+    },
   },
 });
+
+export const { updateAuctionBid } = auctionSlice.actions;
 
 export const getAllItem = () => async (dispatch) => {
   dispatch(auctionSlice.actions.getAllItemRequest());

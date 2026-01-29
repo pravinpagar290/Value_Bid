@@ -33,6 +33,28 @@ app.use(
   }),
 );
 
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Server is running",
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// Root endpoint
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Welcome to ValueBid API",
+    version: "1.0.0",
+    endpoints: {
+      health: "/health",
+      api: "/api/v1",
+    },
+  });
+});
+
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/auctions", auctionRouter);

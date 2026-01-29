@@ -1,6 +1,30 @@
 {
+  "name": "valuebid-backend",
+  "version": "1.0.0",
+  "description": "ValueBid - Real-time Auction Platform Backend API",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "prod": "NODE_ENV=production node index.js"
+  },
+  "keywords": [
+    "auction",
+    "bidding",
+    "real-time",
+    "express",
+    "mongodb",
+    "nodejs"
+  ],
+  "author": "Pravin Pagar",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.3",
     "cloudinary": "^2.4.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -10,18 +34,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.8.8",
     "node-cron": "^3.0.3",
-    "nodemailer": "^6.9.14",
+    "nodemailer": "^6.9.14"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.11"
-  },
-  "name": "backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }

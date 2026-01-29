@@ -118,13 +118,91 @@ ValueBid/
 
 - `npm start`: Runs the production server.
 - `npm run dev`: Runs the server with Nodemon for development.
+- `npm run prod`: Runs the server in production mode.
 
 ### Frontend
 
 - `npm run dev`: Starts the Vite development server.
 - `npm run build`: Builds the app for production.
+- `npm run preview`: Preview the production build locally.
 - `npm run lint`: Checks for linting errors.
+
+## 🚀 Quick Start
+
+For a quick setup, run the setup script:
+
+**Windows:**
+
+```bash
+setup.bat
+```
+
+**Linux/Mac:**
+
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+This will:
+
+- Check Node.js and npm installation
+- Install all dependencies
+- Create `.env` files from examples
+- Provide next steps
+
+## 📦 Deployment
+
+Ready to deploy? We've got you covered with comprehensive guides:
+
+### Deployment Options
+
+1. **Platform as a Service (PaaS)** - Easiest option
+   - Render (Recommended for beginners)
+   - Railway
+   - Vercel (Frontend) + Railway (Backend)
+   - Heroku
+
+2. **Docker** - Containerized deployment
+   - Docker Compose (local/VPS)
+   - Docker Swarm
+   - Kubernetes
+
+3. **Virtual Private Server (VPS)** - Full control
+   - DigitalOcean
+   - AWS EC2
+   - Google Cloud Platform
+   - Azure
+
+
+### Quick Deploy Links
+
+- **Deploy Backend to Render:** [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com)
+- **Deploy Frontend to Vercel:** [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+## 🔒 Security
+
+- JWT-based authentication
+- Password hashing with bcrypt
+- CORS protection
+- Environment variable configuration
+- Secure file uploads via Cloudinary
+- Input validation and sanitization
+
+## 🛠️ Built With
+
+- **Frontend:** React 19, Redux Toolkit, Tailwind CSS 4, Vite
+- **Backend:** Node.js, Express.js, MongoDB, Mongoose
+- **Authentication:** JWT, bcrypt
+- **File Storage:** Cloudinary
+- **Email:** Nodemailer
+- **Automation:** Node-cron
+
+## 📝 License
+
+This project is licensed under the ISC License.
 
 ## ✍️ Author
 
 - **Pravin Pagar**
+

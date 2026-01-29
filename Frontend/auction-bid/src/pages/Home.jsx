@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllItem } from '../store/Slices/auctionSlice';
@@ -13,23 +12,35 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getAllItem());
+
+    // Set document title and meta tags
+    document.title = 'ValueBid - Home';
+
+    // Update or create meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.content =
+      'ValueBid is the premium marketplace for exclusive auctions. Discover unique treasures and bid in real-time.';
+
+    // Update or create meta keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      metaKeywords = document.createElement('meta');
+      metaKeywords.name = 'keywords';
+      document.head.appendChild(metaKeywords);
+    }
+    metaKeywords.content =
+      'auction, bidding, detailed auctions, ValueBid, buy, sell';
   }, [dispatch]);
 
   const featuredAuctions = allAuctions?.slice(0, 3);
 
   return (
     <>
-      <Helmet>
-        <title>ValueBid - Home</title>
-        <meta
-          name="description"
-          content="ValueBid is the premium marketplace for exclusive auctions. Discover unique treasures and bid in real-time."
-        />
-        <meta
-          name="keywords"
-          content="auction, bidding, detailed auctions, ValueBid, buy, sell"
-        />
-      </Helmet>
       <section className="bg-white">
         <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
           <div className="mr-auto place-self-center lg:col-span-7">

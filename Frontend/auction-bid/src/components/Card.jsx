@@ -98,13 +98,15 @@ export const Card = ({
             </h2>
           </Link>
           <div className="flex items-center gap-2 text-gray-500 text-sm">
-            <FaUserCircle className="text-gray-400 text-lg" />
-            <span className="font-medium">{seller || 'Unknown Seller'}</span>
+            <FaUserCircle className="text-gray-500 text-lg" />
+            <span className="font-medium text-gray-600">
+              {seller || 'Unknown Seller'}
+            </span>
           </div>
         </div>
 
         <div className="mb-6">
-          <p className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">
+          <p className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">
             Current Bid
           </p>
           <div className="flex items-baseline gap-2">
@@ -112,21 +114,21 @@ export const Card = ({
               ₹{displayPrice?.toLocaleString()}
             </span>
           </div>
-          <div className="flex items-center gap-2 mt-2 text-sm text-gray-500">
-            <FaChartLine className="text-gray-400" />
+          <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
+            <FaChartLine className="text-gray-500" />
             <span className="font-bold">{bidCount} bids</span>
-            <span className="text-gray-300">•</span>
+            <span className="text-gray-400">•</span>
             <span>Starting: ₹{startingBid?.toLocaleString()}</span>
           </div>
         </div>
 
         {/* Timer Box */}
         <div className="bg-gray-50 rounded-2xl p-4 mb-6 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-400 shadow-sm border border-gray-100">
+          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-500 shadow-sm border border-gray-100">
             <FaRegClock />
           </div>
           <div>
-            <p className="text-xs text-gray-400 font-bold uppercase">
+            <p className="text-xs text-gray-500 font-bold uppercase">
               {timeLeft.type === 'Ended' ? 'Auction Status' : 'Time Remaining'}
             </p>
             <p className="text-lg font-black text-gray-900">
@@ -152,7 +154,7 @@ export const Card = ({
           <div className="mt-auto">
             <Link
               to={`/auction/item/${id}`}
-              className="flex justify-center items-center bg-gray-200 text-gray-500 py-3 rounded-xl font-bold cursor-not-allowed"
+              className="flex justify-center items-center bg-gray-200 text-gray-600 py-3 rounded-xl font-bold cursor-not-allowed"
             >
               Auction Ended
             </Link>

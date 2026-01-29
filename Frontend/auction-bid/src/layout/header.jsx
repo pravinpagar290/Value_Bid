@@ -17,6 +17,7 @@ const Header = ({ onOpenSidebar }) => {
         <button
           onClick={onOpenSidebar}
           className="p-2 hover:bg-gray-100 rounded-full"
+          aria-label="Open sidebar menu"
         >
           <CiMenuBurger className="text-xl" />
         </button>
@@ -29,8 +30,11 @@ const Header = ({ onOpenSidebar }) => {
         <Link
           to={'/my-winnings'}
           className="p-2 hover:bg-gray-100 rounded-full"
+          aria-label="View my winnings"
+          title="View my winnings"
         >
-          <CiShoppingCart className="text-xl" />
+          <CiShoppingCart className="text-xl" aria-hidden="true" />
+          <span className="sr-only">View my winnings</span>
         </Link>
         {isAuthenticate ? <LogOutBtn /> : <LogInBtn />}
         <button onClick={() => dispatch(toggleTheme())}>

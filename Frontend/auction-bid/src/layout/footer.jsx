@@ -12,7 +12,7 @@ const Footer = () => {
             <Link to="/" className="flex items-center gap-2 mb-4">
               <img src={logo} alt="ValueBid" className="h-10 w-auto" />
             </Link>
-            <p className="text-gray-500 text-sm max-w-sm mb-6">
+            <p className="text-gray-600 text-sm max-w-sm mb-6">
               The premium marketplace for exclusive auctions. Discover unique
               treasures, bid in real-time, and join a community of passionate
               collectors.
@@ -20,28 +20,28 @@ const Footer = () => {
             <div className="flex space-x-4">
               <a
                 href="#"
-                className="text-gray-400 hover:text-indigo-600 transition-colors"
+                className="text-gray-500 hover:text-indigo-600 transition-colors"
                 aria-label="Facebook"
               >
                 <FaFacebook className="text-xl" />
               </a>
               <a
                 href="#"
-                className="text-gray-400 hover:text-indigo-600 transition-colors"
+                className="text-gray-500 hover:text-indigo-600 transition-colors"
                 aria-label="Twitter"
               >
                 <FaTwitter className="text-xl" />
               </a>
               <a
                 href="#"
-                className="text-gray-400 hover:text-indigo-600 transition-colors"
+                className="text-gray-500 hover:text-indigo-600 transition-colors"
                 aria-label="Instagram"
               >
                 <FaInstagram className="text-xl" />
               </a>
               <a
                 href="#"
-                className="text-gray-400 hover:text-indigo-600 transition-colors"
+                className="text-gray-500 hover:text-indigo-600 transition-colors"
                 aria-label="LinkedIn"
               >
                 <FaLinkedin className="text-xl" />
@@ -57,7 +57,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/auctions"
-                  className="text-base text-gray-500 hover:text-indigo-600 transition-colors"
+                  className="text-base text-gray-600 hover:text-indigo-600 transition-colors"
                 >
                   Live Auctions
                 </Link>
@@ -65,7 +65,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/leader-board"
-                  className="text-base text-gray-500 hover:text-indigo-600 transition-colors"
+                  className="text-base text-gray-600 hover:text-indigo-600 transition-colors"
                 >
                   Leaderboard
                 </Link>
@@ -73,7 +73,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/create-auction"
-                  className="text-base text-gray-500 hover:text-indigo-600 transition-colors"
+                  className="text-base text-gray-600 hover:text-indigo-600 transition-colors"
                 >
                   Start Selling
                 </Link>
@@ -89,7 +89,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/about"
-                  className="text-base text-gray-500 hover:text-indigo-600 transition-colors"
+                  className="text-base text-gray-600 hover:text-indigo-600 transition-colors"
                 >
                   About Us
                 </Link>
@@ -97,7 +97,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/contact"
-                  className="text-base text-gray-500 hover:text-indigo-600 transition-colors"
+                  className="text-base text-gray-600 hover:text-indigo-600 transition-colors"
                 >
                   Contact
                 </Link>
@@ -105,7 +105,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/privacy"
-                  className="text-base text-gray-500 hover:text-indigo-600 transition-colors"
+                  className="text-base text-gray-600 hover:text-indigo-600 transition-colors"
                 >
                   Privacy Policy
                 </Link>
@@ -113,7 +113,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/terms"
-                  className="text-base text-gray-500 hover:text-indigo-600 transition-colors"
+                  className="text-base text-gray-600 hover:text-indigo-600 transition-colors"
                 >
                   Terms of Service
                 </Link>
@@ -122,7 +122,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-12 border-t border-gray-100 pt-8 text-center md:text-left">
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} ValueBid. All rights reserved.
           </p>
         </div>

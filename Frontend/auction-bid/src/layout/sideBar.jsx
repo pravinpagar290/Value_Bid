@@ -34,6 +34,7 @@ const SideBar = ({ isOpen, onClose }) => {
           <button
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            aria-label="Close sidebar menu"
           >
             <TfiClose className="text-xl text-gray-500" />
           </button>
